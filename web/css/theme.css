@@ -1,0 +1,61 @@
+/* Design tokens.
+   Values are written at runtime by js/theme.js from js/palettes.json, which
+   carries the ten directions x three modes verbatim. The defaults below are
+   Anodized / mid, so the page is correctly styled before that script runs. */
+
+:root {
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system,
+               "Helvetica Neue", sans-serif;
+  --font-mono: "Cascadia Mono", Consolas, ui-monospace, Menlo, monospace;
+
+  /* surfaces */
+  --app-bar: #2E3236;
+  --app-bar-border: #41464B;
+  --content-bg: #2E3236;
+  --paper: #35393E;
+  --log-bg: #26292D;
+
+  /* data / status triad */
+  --ok: #58C07A;
+  --warn: #E2A63F;
+  --bad: #F07068;
+  --highlight: rgba(198, 206, 213, 0.10);
+
+  /* structure and ink */
+  --sidebar-bg: #24272B;
+  --border: #41464B;
+  --text: #E4E7EA;
+  --text-dim: #949AA0;
+  --accent: #C6CED5;
+  --accent-soft: rgba(255, 255, 255, 0.08);
+  --accent-soft-hover: rgba(255, 255, 255, 0.13);
+  --hover: rgba(255, 255, 255, 0.05);
+  --success: #58C07A;
+  --success-off: #5D646A;
+
+  /* actions */
+  --scan-bg: #35393E;        --scan-bg-hover: #3E4348;
+  --scan-fg: #CBD1D6;        --scan-border: #4B5157;
+  --connect-bg: #4CC17C;     --connect-bg-hover: #66CE92;
+  --connect-fg: #0E1411;     --connect-border: #4CC17C;
+  --disconnect-bg: #F07068;  --disconnect-bg-hover: #F4867F;
+  --disconnect-fg: #180A09;  --disconnect-border: #F07068;
+  --primary-bg: #C6CED5;     --primary-bg-hover: #DCE2E7;
+  --primary-fg: #1B1F23;     --primary-border: #C6CED5;
+  --danger-bg: #F07068;      --danger-bg-hover: #F4867F;
+  --danger-fg: #180A09;      --danger-border: #F07068;
+
+  /* geometry */
+  --r-sm: 3px;
+  --r: 5px;
+  --r-md: 6px;
+  --r-lg: 8px;
+}
+
+/* Colour changes are eased so switching palette reads as one movement. */
+.themed, .themed * {
+  transition: background-color .28s ease, border-color .28s ease, color .28s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .themed, .themed * { transition: none; }
+}

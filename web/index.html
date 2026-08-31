@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FSC3 · Burst Decay Test</title>
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body class="themed">
+
+<div class="app">
+
+  <!-- ─────────────── app bar ─────────────── -->
+  <header class="app-bar">
+    <div class="brand">
+      <b>FSC3</b><span>Burst decay test</span>
+    </div>
+    <div class="chips">
+      <div class="chip"><span class="dot" id="cLink"></span><span id="cInstr">connecting…</span></div>
+      <div class="chip">STATE <b id="cState">idle</b></div>
+      <div class="chip">CAPTURES <b id="cCount">0</b></div>
+    </div>
+  </header>
+
+  <!-- ─────────────── body ─────────────── -->
+  <div class="body">
+
+    <nav class="rail">
+      <div class="rail-group">Test</div>
+      <button class="rail-item" data-view="setup" aria-current="true">Setup</button>
+      <button class="rail-item" data-view="live">Live<span class="n" id="nLive"></span></button>
+
+      <div class="rail-group">Results</div>
+      <button class="rail-item" data-view="review">Review<span class="n" id="nSaved"></span></button>
+
+      <div class="rail-foot">
+        <label for="palDir">Palette</label>
+        <select id="palDir" class="rail-select"></select>
+        <div class="mode-row" id="palModes">
+          <button data-mode="light" type="button">Light</button>
+          <button data-mode="mid" type="button">Mid</button>
+          <button data-mode="dark" type="button">Dark</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main">
+
+      <!-- ══════════ SETUP ══════════ -->
+      <section class="view" id="viewSetup">
+        <div class="head">
+          <div>
+            <h1>Test setup</h1>
+            <p id="setupSub">zero span · triggered capture · one burst per interval</p>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btnStart">Start test</button>
+            <button class="btn danger" id="btnStop" disabled>Stop</button>
+          </div>
+        </div>
+
+        <div class="notice" id="banner" hidden><span class="bang">›</span><span id="bannerText"></span></div>
+
+        <div class="panel">
+          <div class="panel-title">Acquisition <span class="aside">span is fixed at zero — the screen is power vs time</span></div>
+          <div class="fields">
+            <div class="field"><label for="test_name">Test name</label>
+              <input id="test_name" value="burst-decay">
+              <div class="hint">folder under results/</div></div>
+            <div class="field"><label for="center_mhz">Center freq (MHz)</label>
+              <input id="center_mhz" value="2404"></div>
+            <div class="field"><label for="sweep_ms">Sweep time (ms)</label>
+              <input id="sweep_ms" value="10"></div>
+            <div class="field"><label for="ref_level_dbm">Ref level (dBm)</label>
+              <input id="ref_level_dbm" value="-20"></div>
+            <div class="field"><label for="rbw_khz">RBW (kHz)</label>
+              <input id="rbw_khz" value="0"><div class="hint">0 = auto</div></div>
+            <div class="field"><label for="vbw_khz">VBW (kHz)</label>
+              <input id="vbw_khz" value="0"><div class="hint">0 = auto</div></div>
+            <div class="field"><label for="detector">Detector</label>
+              <select id="detector">
+                <option>POS</option><option>RMS</option><option>SAMP</option><option>NEG</option>
+              </select><div class="hint">AVER is rejected by the FSC3</div></div>
+            <div class="field"><label for="atten_auto">Attenuation</label>
+              <select id="atten_auto"><option value="1">Auto</option><option value="0">Manual</option></select></div>
+            <div class="field"><label for="atten_db">Atten (dB, manual)</label>
+              <input id="atten_db" value="0"></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">Trigger</div>
+            <div class="fields cols-3">
+              <div class="field"><label for="trigger">Source</label>
+                <select id="trigger">
+                  <option value="VID">Video</option>
+                  <option value="EXT">External</option>
+                  <option value="IMM">Free run</option>
+                </select></div>
+              <div class="field"><label for="trig_level_pct">Video level (%)</label>
+                <input id="trig_level_pct" value="50"></div>
+              <div class="field"><label for="trig_slope">Slope</label>
+                <select id="trig_slope"><option>POS</option><option>NEG</option></select></div>
+              <div class="field"><label for="trig_timeout_s">Wait timeout (s)</label>
+                <input id="trig_timeout_s" value="30"></div>
+            </div>
+            <div class="notice" style="margin-top:10px"><span class="bang">!</span>
+              <span>Video trigger works only in zero span on the FSC3 — which is what
+              this test uses. A burst that does not arrive within the timeout is
+              logged as <b>missed</b> and the run continues.</span></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Timing &amp; stop condition</div>
+            <div class="fields cols-3">
+              <div class="field"><label for="interval_min">TX interval (min)</label>
+                <input id="interval_min" value="5"></div>
+              <div class="field"><label for="arm_offset_s">Arm offset (s)</label>
+                <input id="arm_offset_s" value="2"><div class="hint">negative arms early</div></div>
+              <div class="field"><label for="threshold_db">Stop at drop (dB)</label>
+                <input id="threshold_db" value="3"></div>
+              <div class="field"><label for="max_measurements">Max measurements</label>
+                <input id="max_measurements" value="500"></div>
+              <div class="field"><label for="max_duration_min">Max duration (min)</label>
+                <input id="max_duration_min" value="1440"></div>
+              <div class="field"><label for="ref_retries">Reference retries</label>
+                <input id="ref_retries" value="5"></div>
+            </div>
+            <div class="readout" style="margin-top:10px">
+              <div><span>Capture #0</span><b>immediately, sets the reference</b></div>
+              <div><span>Capture k armed at</span><b>t_ref + k·interval + offset</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ LIVE ══════════ -->
+      <section class="view" id="viewLive" hidden>
+        <div class="head">
+          <div>
+            <h1>Live</h1>
+            <p id="liveSub">no test running</p>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btnStart2">Start test</button>
+            <button class="btn danger" id="btnStop2" disabled>Stop</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="k">State</div><div class="v" id="sState">idle</div></div>
+          <div class="stat"><div class="k">Reference</div><div class="v" id="sRef">—</div></div>
+          <div class="stat"><div class="k">Last peak</div><div class="v" id="sPeak">—</div></div>
+          <div class="stat"><div class="k">Delta</div><div class="v" id="sDelta">—</div></div>
+          <div class="stat"><div class="k">Elapsed</div><div class="v" id="sElapsed">—</div></div>
+          <div class="stat"><div class="k">Next in</div><div class="v" id="sNext">—</div></div>
+          <div class="stat"><div class="k">Missed</div><div class="v" id="sMissed">0</div></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Screen — zero span
+            <span class="aside" id="screenInfo">no capture yet</span></div>
+          <canvas class="screen tall" id="screen" width="1600" height="600"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Decay — peak power vs elapsed time</div>
+          <canvas class="screen short" id="decay" width="1600" height="420"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Measurements</div>
+          <div class="table-wrap">
+            <table class="data" id="tbl">
+              <thead><tr><th>#</th><th>Clock</th><th>t+ (s)</th><th>Peak dBm</th>
+                <th>Δ dB</th><th>Trig</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ REVIEW ══════════ -->
+      <section class="view" id="viewReview" hidden>
+        <div class="head">
+          <div>
+            <h1>Review saved runs</h1>
+            <p id="vMeta">nothing loaded</p>
+          </div>
+          <div class="actions">
+            <select id="vTest" class="rail-select" style="width:auto;min-width:190px"></select>
+            <button class="btn sm" id="vRefresh">Refresh</button>
+          </div>
+        </div>
+
+        <div class="notice ok" id="vResult" hidden><span class="bang">✓</span><span id="vResultText"></span></div>
+
+        <div class="panel">
+          <div class="panel-title">Screen viewer <span class="aside" id="vInfo">pick a run</span></div>
+          <div class="controls" style="margin-bottom:8px">
+            <button class="btn sm" id="vPrev">◀ Prev</button>
+            <button class="btn sm" id="vNext">Next ▶</button>
+            <button class="btn sm" id="vPlay">▶ Play</button>
+            <input id="vSlider" type="range" min="0" max="0" value="0">
+            <span class="pos" id="vPos">—</span>
+          </div>
+          <canvas class="screen tall" id="vscreen" width="1600" height="600"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Decay curve</div>
+          <canvas class="screen short" id="vdecay" width="1600" height="420"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Captures <span class="aside">click a row to show that screen</span></div>
+          <div class="table-wrap">
+            <table class="data" id="vtbl">
+              <thead><tr><th>#</th><th>Clock</th><th>t+ (s)</th><th>Peak dBm</th>
+                <th>Δ dB</th><th>Trig</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="log-strip" id="log"></div>
+
+  <footer class="foot">
+    <span id="footLeft">FSC3 burst decay test</span>
+    <span id="footRight">results/ · CSV per capture</span>
+  </footer>
+</div>
+
+<script src="js/theme.js"></script>
+<script src="js/plot.js"></script>
+<script src="js/api.js"></script>
+<script src="js/live.js"></script>
+<script src="js/review.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R&amp;S FSC3 — Serial Control Panel</title>
+<style>
+  :root{
+    --bg:#101418; --panel:#171d23; --panel2:#1e262e; --line:#2b3641;
+    --fg:#dfe7ee; --dim:#8b9aa8; --accent:#39b5e0; --ok:#4ecb71; --err:#ff6b6b;
+    --mono:ui-monospace,Consolas,"Cascadia Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,Segoe UI,sans-serif}
+  header{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  h1{font-size:15px;margin:0 12px 0 0;font-weight:600;letter-spacing:.02em}
+  .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:12px;padding:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px}
+  .card h2{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--dim);font-weight:600}
+  label{display:block;font-size:11px;color:var(--dim);margin-bottom:3px}
+  input,select,button{font:inherit;color:var(--fg);background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:6px 8px}
+  input:focus,select:focus{outline:1px solid var(--accent);border-color:var(--accent)}
+  button{cursor:pointer;background:#243039}
+  button:hover:not(:disabled){background:#2e3d49;border-color:var(--accent)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  button.primary{background:var(--accent);color:#06222c;border-color:var(--accent);font-weight:600}
+  .row{display:flex;gap:6px;align-items:flex-end;margin-bottom:8px;flex-wrap:wrap}
+  .row > div{flex:1;min-width:96px}
+  .row input,.row select{width:100%}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--err);display:inline-block;margin-right:6px}
+  .dot.on{background:var(--ok)}
+  #log{font-family:var(--mono);font-size:12px;height:230px;overflow:auto;background:#0b0f13;border:1px solid var(--line);border-radius:6px;padding:8px;white-space:pre-wrap;word-break:break-all}
+  .tx{color:var(--accent)} .rx{color:var(--ok)} .er{color:var(--err)} .sy{color:var(--dim)}
+  .mk{border:1px solid var(--line);border-radius:6px;padding:8px;margin-bottom:8px;background:var(--panel2)}
+  .mk .hd{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .mk .hd b{font-size:12px;letter-spacing:.05em}
+  .val{font-family:var(--mono);font-size:13px;color:var(--ok);margin-left:auto}
+  .note{font-size:11px;color:var(--dim);margin-top:8px;line-height:1.5}
+  canvas{width:100%;height:210px;background:#0b0f13;border:1px solid var(--line);border-radius:6px;display:block}
+  .full{grid-column:1/-1}
+  code{font-family:var(--mono);background:#0b0f13;padding:1px 4px;border-radius:3px;font-size:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>R&amp;S FSC3 · Control Panel</h1>
+  <div><label>Transport</label>
+    <select id="transport">
+      <option value="serial">Web Serial (Chrome)</option>
+      <option value="bridge">Local bridge</option>
+    </select>
+  </div>
+  <div id="tgtWrap" style="display:none;min-width:210px"><label>Instrument target</label>
+    <input id="target" value="tcp://172.16.10.1:5555" spellcheck="false"
+           title="tcp://172.16.10.1:5555  or  serial://COM5" style="width:100%">
+  </div>
+  <div><label>Baud</label>
+    <select id="baud">
+      <option>9600</option><option>19200</option><option>38400</option>
+      <option>57600</option><option selected>115200</option><option>230400</option>
+    </select>
+  </div>
+  <div><label>Flow ctrl</label>
+    <select id="flow"><option value="none">none</option><option value="hardware">RTS/CTS</option></select>
+  </div>
+  <div><label>Terminator</label>
+    <select id="term"><option value="\n">LF</option><option value="\r\n">CR+LF</option><option value="\r">CR</option></select>
+  </div>
+  <button id="btnConn" class="primary">Connect</button>
+  <button id="btnDisc" disabled>Disconnect</button>
+  <span style="margin-left:auto"><span id="dot" class="dot"></span><span id="idn" class="sy">not connected</span></span>
+</header>
+
+<div class="wrap">
+
+  <!-- ── FREQUENCY ───────────────────────────────────────── -->
+  <div class="card">
+    <h2>Frequency</h2>
+    <div class="row">
+      <div><label>Center</label><input id="fCent" value="100"></div>
+      <div style="flex:0 0 80px"><label>Unit</label>
+        <select id="uCent"><option>Hz</option><option>kHz</option><option selected>MHz</option><option>GHz</option></select>
+      </div>
+      <button data-set="cent">Set</button>
+    </div>
+    <div class="row">
+      <div><label>Span</label><input id="fSpan" value="10"></div>
+      <div style="flex:0 0 80px"><label>Unit</label>
+        <select id="uSpan"><option>Hz</option><option>kHz</option><option selected>MHz</option><option>GHz</option></select>
+      </div>
+      <button data-set="span">Set</button>
+    </div>
+    <div class="row">
+      <div><label>Start</label><input id="fStart" value="95"></div>
+      <div style="flex:0 0 80px"><label>Unit</label>
+        <select id="uStart"><option>Hz</option><option>kHz</option><option selected>MHz</option><option>GHz</option></select>
+      </div>
+      <button data-set="start">Set</button>
+    </div>
+    <div class="row">
+      <div><label>Stop</label><input id="fStop" value="105"></div>
+      <div style="flex:0 0 80px"><label>Unit</label>
+        <select id="uStop"><option>Hz</option><option>kHz</option><option selected>MHz</option><option>GHz</option></select>
+      </div>
+      <button data-set="stop">Set</button>
+    </div>
+    <div class="grid3">
+      <button data-span="0">Zero span</button>
+      <button data-span="full">Full span</button>
+      <button id="btnReadFreq">Read back</button>
+    </div>
+  </div>
+
+  <!-- ── AMPLITUDE / BW ──────────────────────────────────── -->
+  <div class="card">
+    <h2>Amplitude &amp; Bandwidth</h2>
+    <div class="row">
+      <div><label>Ref level (dBm)</label><input id="rlev" value="0"></div>
+      <button data-set="rlev">Set</button>
+    </div>
+    <div class="row">
+      <div><label>RBW</label><input id="rbw" value="100" placeholder="auto = blank"></div>
+      <div style="flex:0 0 80px"><label>Unit</label>
+        <select id="uRbw"><option>Hz</option><option selected>kHz</option><option>MHz</option></select>
+      </div>
+      <button data-set="rbw">Set</button>
+    </div>
+    <div class="row">
+      <div><label>VBW</label><input id="vbw" value="100"></div>
+      <div style="flex:0 0 80px"><label>Unit</label>
+        <select id="uVbw"><option>Hz</option><option selected>kHz</option><option>MHz</option></select>
+      </div>
+      <button data-set="vbw">Set</button>
+    </div>
+    <div class="grid3">
+      <button data-cmd="BAND:AUTO ON;:BAND:VID:AUTO ON">BW auto</button>
+      <button data-cmd="INIT:CONT ON">Cont sweep</button>
+      <button data-cmd="INIT:CONT OFF">Single</button>
+    </div>
+  </div>
+
+  <!-- ── MARKERS ─────────────────────────────────────────── -->
+  <div class="card">
+    <h2>Markers</h2>
+    <div id="markers"></div>
+    <div class="grid3">
+      <button id="mkAllOff">All markers off</button>
+      <button id="mkReadAll">Read all</button>
+      <button id="mkPoll">Auto-poll: off</button>
+    </div>
+  </div>
+
+  <!-- ── CONSOLE ─────────────────────────────────────────── -->
+  <div class="card">
+    <h2>SCPI console</h2>
+    <div class="row">
+      <div style="flex:3"><label>Command (append <code>?</code> to read a response)</label>
+        <input id="raw" placeholder="*IDN?" spellcheck="false"></div>
+      <button id="btnSend">Send</button>
+    </div>
+    <div id="log"></div>
+    <div class="grid3" style="margin-top:8px">
+      <button data-cmd="*IDN?">*IDN?</button>
+      <button data-cmd="SYST:ERR?">SYST:ERR?</button>
+      <button id="btnClear">Clear log</button>
+    </div>
+  </div>
+
+  <!-- ── TRACE ───────────────────────────────────────────── -->
+  <div class="card full">
+    <h2>Trace</h2>
+    <div class="row">
+      <button id="btnTrace">Read trace 1</button>
+      <button id="btnTraceLoop">Auto-refresh: off</button>
+      <div style="flex:0 0 auto;align-self:center" class="sy" id="traceInfo">—</div>
+    </div>
+    <canvas id="cv" width="1200" height="420"></canvas>
+    <div class="note">
+      <b>Two ways to connect.</b><br>
+      <b>1 · Local bridge</b> (works in any browser, and over LAN) — run
+      <code>python fsc-bridge.py</code> in this folder, open <code>http://localhost:8765/</code>, set
+      <i>Instrument target</i> to <code>serial://COM5</code> or <code>tcp://&lt;instrument-ip&gt;:5025</code>, press Connect.<br>
+      <b>2 · Web Serial</b> (Chrome/Edge only, no helper process) — pick <i>Web Serial</i> as the transport
+      and choose the port in the browser dialog. The browser, not this page, picks the port; ports the OS
+      cannot open are hidden from that dialog.<br>
+      <b>If COM5 never appears in the Chrome dialog:</b> that is a driver problem, not a browser one —
+      Chrome hides ports the OS cannot open. Measured on this machine:
+      the FSC3 enumerates as CDC class 02 / subclass 02 / <b>protocol 0xFF</b> (vendor-specific control
+      protocol) with no Union functional descriptor, so Microsoft's generic <code>usbser.sys</code> binds to
+      it but cannot drive it. <code>CreateFile</code> succeeds, then <code>SetCommState</code> and
+      <code>EscapeCommFunction(SETDTR)</code> — the CDC <code>SET_LINE_CODING</code> and
+      <code>SET_CONTROL_LINE_STATE</code> requests — both fail with <code>ERROR_GEN_FAILURE (31)</code>.
+      Bytes do reach the bulk OUT pipe, but the instrument never replies without that handshake, so
+      <code>serial://COM5?raw=1</code> (which skips line configuration) was tried and <b>does not work</b>
+      on this device.<br>
+      <b>Fix:</b> install the R&amp;S USB driver (ships with R&amp;S InstrumentView) and bind it to the device
+      in Device Manager, replacing Microsoft's <code>usbser</code>. Then either transport works. Match
+      Baud/terminator to <i>Setup → Instrument Setup</i> on the FSC.
+    </div>
+  </div>
+
+</div>
+
+<script>
+"use strict";
+/* ── transport layer ───────────────────────────────────── */
+/* A "link" is any object with .send(text), .close() and .name.
+   Two implementations: Web Serial (direct) and the local bridge (WebSocket). */
+let link=null, rxBuf="", queue=[];
+
+const $ = id => document.getElementById(id);
+const log = (txt,cls="sy") => {
+  const el=$("log"), d=document.createElement("div");
+  d.className=cls; d.textContent=txt; el.appendChild(d);
+  while(el.childElementCount>500) el.removeChild(el.firstChild);
+  el.scrollTop=el.scrollHeight;
+};
+const termChars = () => $("term").value.replace("\\r","\r").replace("\\n","\n");
+
+/* every complete response line funnels through here, whatever the transport */
+function rxLine(line){
+  line = line.trim(); if(!line) return;
+  log("< "+(line.length>160 ? line.slice(0,160)+" …("+line.length+" ch)" : line), "rx");
+  const q = queue.shift();
+  if(q){ clearTimeout(q.t); q.res(line); }
+}
+function feed(chunk){                       // byte-stream -> lines
+  rxBuf += chunk; let i;
+  while((i = rxBuf.search(/[\r\n]/)) >= 0){
+    rxLine(rxBuf.slice(0,i)); rxBuf = rxBuf.slice(i+1);
+  }
+}
+
+/* ── Web Serial ────────────────────────────────────────── */
+async function openSerial(){
+  if(!("serial" in navigator))
+    throw new Error("navigator.serial unavailable — needs Chrome/Edge over http:// or https://");
+  const port = await navigator.serial.requestPort();
+  await port.open({ baudRate:+$("baud").value, dataBits:8, stopBits:1,
+                    parity:"none", flowControl:$("flow").value });
+  const writer = port.writable.getWriter(), reader = port.readable.getReader();
+  (async ()=>{                              // read pump
+    const dec = new TextDecoder();
+    try{
+      while(true){
+        const {value,done} = await reader.read();
+        if(done) break;
+        feed(dec.decode(value,{stream:true}));
+      }
+    }catch(e){ if(link) log("read error: "+e.message,"er"); }
+  })();
+  return {
+    name: "Web Serial @ "+$("baud").value+" baud",
+    send: t => writer.write(new TextEncoder().encode(t + termChars())),
+    close: async ()=>{
+      try{ await reader.cancel(); reader.releaseLock(); }catch(e){}
+      try{ writer.releaseLock(); }catch(e){}
+      try{ await port.close(); }catch(e){}
+    }
+  };
+}
+
+/* ── local bridge (WebSocket → TCP 5025 or COM port) ───── */
+function openBridge(){
+  return new Promise((res,rej)=>{
+    const proto = location.protocol==="https:" ? "wss://" : "ws://";
+    const host  = location.host || "127.0.0.1:8765";
+    let ws;
+    try{ ws = new WebSocket(proto+host+"/ws"); }
+    catch(e){ return rej(new Error("bad bridge address: "+e.message)); }
+    const fail = setTimeout(()=>{ try{ws.close();}catch(e){}
+      rej(new Error("bridge not answering at "+host+" — is fsc-bridge.py running?")); }, 5000);
+
+    ws.onopen = ()=> ws.send(JSON.stringify({cmd:"open", url:$("target").value.trim(),
+      baud:+$("baud").value, flow:$("flow").value, term:termChars()}));
+    ws.onerror = ()=>{ clearTimeout(fail);
+      rej(new Error("cannot reach bridge at "+host+" — start it with: python fsc-bridge.py")); };
+    ws.onclose = ()=>{ if(link && link.ws===ws){ log("— bridge closed —","er"); disconnect(); } };
+    ws.onmessage = ev=>{
+      let m; try{ m = JSON.parse(ev.data); }catch(e){ return; }
+      if(m.ev==="rx")         rxLine(m.data);
+      else if(m.ev==="open"){ clearTimeout(fail);
+        res({ name:m.info, ws,
+              send:t=>ws.send(JSON.stringify({cmd:"tx",data:t})),
+              close:()=>{ try{ws.send(JSON.stringify({cmd:"close"}));ws.close();}catch(e){} } }); }
+      else if(m.ev==="error"){ clearTimeout(fail);
+        log("bridge: "+m.msg,"er"); rej(new Error(m.msg)); }
+    };
+  });
+}
+
+async function connect(){
+  try{
+    link = $("transport").value==="bridge" ? await openBridge() : await openSerial();
+    $("dot").classList.add("on"); $("btnConn").disabled=true; $("btnDisc").disabled=false;
+    $("idn").textContent="connected"; $("idn").className="";
+    log("— connected: "+link.name+" —","sy");
+    try{ $("idn").textContent = await query("*IDN?", 3000); }
+    catch(e){ log("no *IDN? reply: "+e.message+"  (check baud / terminator)","er"); }
+  }catch(e){ log("connect failed: "+e.message,"er"); link=null; }
+}
+
+async function disconnect(){
+  stopPolls();
+  const l = link; link = null;
+  if(l) try{ await l.close(); }catch(e){}
+  rxBuf=""; queue.forEach(q=>{ clearTimeout(q.t); q.rej(new Error("disconnected")); }); queue=[];
+  $("dot").classList.remove("on"); $("btnConn").disabled=false; $("btnDisc").disabled=true;
+  $("idn").textContent="not connected"; $("idn").className="sy";
+  log("— disconnected —","sy");
+}
+
+async function send(cmd){
+  if(!link){ log("not connected","er"); throw new Error("not connected"); }
+  log("> "+cmd,"tx");
+  await link.send(cmd);
+}
+
+function query(cmd, ms=2000){
+  return new Promise(async (res,rej)=>{
+    const entry = {res,rej,t:null};
+    entry.t = setTimeout(()=>{
+      const k = queue.indexOf(entry); if(k>=0) queue.splice(k,1);
+      rej(new Error("timeout: "+cmd));
+    }, ms);
+    queue.push(entry);
+    try{ await send(cmd); }
+    catch(e){ clearTimeout(entry.t); const k=queue.indexOf(entry); if(k>=0) queue.splice(k,1); rej(e); }
+  });
+}
+
+/* ── helpers ───────────────────────────────────────────── */
+const MULT = {Hz:1, kHz:1e3, MHz:1e6, GHz:1e9};
+const hz = (inputId,unitId) => {
+  const v = parseFloat($(inputId).value);
+  if(!isFinite(v)) throw new Error("bad number in "+inputId);
+  return v * MULT[$(unitId).value];
+};
+const fmtHz = f => f>=1e9 ? (f/1e9).toFixed(6)+" GHz"
+                 : f>=1e6 ? (f/1e6).toFixed(6)+" MHz"
+                 : f>=1e3 ? (f/1e3).toFixed(3)+" kHz" : f.toFixed(1)+" Hz";
+
+/* ── frequency / amplitude ─────────────────────────────── */
+const SETTERS = {
+  cent : () => "FREQ:CENT "  + hz("fCent","uCent"),
+  span : () => "FREQ:SPAN "  + hz("fSpan","uSpan"),
+  start: () => "FREQ:STAR "  + hz("fStart","uStart"),
+  stop : () => "FREQ:STOP "  + hz("fStop","uStop"),
+  rlev : () => "DISP:TRAC:Y:RLEV " + parseFloat($("rlev").value),
+  rbw  : () => "BAND:RES "   + hz("rbw","uRbw"),
+  vbw  : () => "BAND:VID "   + hz("vbw","uVbw"),
+};
+
+document.addEventListener("click", async ev=>{
+  const b = ev.target.closest("button"); if(!b) return;
+  try{
+    if(b.dataset.set) await send(SETTERS[b.dataset.set]());
+    else if(b.dataset.span==="0")     await send("FREQ:SPAN 0");
+    else if(b.dataset.span==="full")  await send("FREQ:SPAN:FULL");
+    else if(b.dataset.cmd){
+      const c=b.dataset.cmd;
+      c.trim().endsWith("?") ? await query(c) : await send(c);
+    }
+  }catch(e){ log("! "+e.message,"er"); }
+});
+
+$("btnReadFreq").onclick = async ()=>{
+  try{
+    const [c,s,a,b] = [await query("FREQ:CENT?"), await query("FREQ:SPAN?"),
+                       await query("FREQ:STAR?"), await query("FREQ:STOP?")];
+    const put=(id,uid,v)=>{ const f=parseFloat(v);
+      const u=$(uid).value; $(id).value = +(f/MULT[u]).toFixed(9); };
+    put("fCent","uCent",c); put("fSpan","uSpan",s);
+    put("fStart","uStart",a); put("fStop","uStop",b);
+    log("  center "+fmtHz(+c)+"  span "+fmtHz(+s),"sy");
+  }catch(e){ log("! "+e.message,"er"); }
+};
+
+/* ── markers ───────────────────────────────────────────── */
+const NMARK = 6;
+$("markers").innerHTML = Array.from({length:NMARK},(_,i)=>{
+  const n=i+1;
+  return `<div class="mk">
+    <div class="hd">
+      <input type="checkbox" id="mkOn${n}" data-mk="${n}">
+      <b>M${n}</b>
+      <span class="val" id="mkY${n}">—</span>
+    </div>
+    <div class="row" style="margin-bottom:6px">
+      <div><label>Frequency</label><input id="mkF${n}" value=""></div>
+      <div style="flex:0 0 78px"><label>Unit</label>
+        <select id="mkU${n}"><option>Hz</option><option>kHz</option><option selected>MHz</option><option>GHz</option></select></div>
+      <button data-mkset="${n}">Set</button>
+    </div>
+    <div class="grid3">
+      <button data-mkpk="${n}">Peak</button>
+      <button data-mknx="${n}">Next pk</button>
+      <button data-mkrd="${n}">Read</button>
+    </div>
+  </div>`;
+}).join("");
+
+async function readMarker(n){
+  try{
+    const x = await query(`CALC:MARK${n}:X?`);
+    const y = await query(`CALC:MARK${n}:Y?`);
+    $("mkY"+n).textContent = fmtHz(parseFloat(x)) + "   " + parseFloat(y).toFixed(2) + " dBm";
+    const u = $("mkU"+n).value;
+    $("mkF"+n).value = +(parseFloat(x)/MULT[u]).toFixed(9);
+  }catch(e){ $("mkY"+n).textContent="—"; log("! M"+n+": "+e.message,"er"); }
+}
+
+document.addEventListener("click", async ev=>{
+  const b = ev.target.closest("button, input[type=checkbox]"); if(!b) return;
+  const d = b.dataset;
+  try{
+    if(d.mk)          await send(`CALC:MARK${d.mk}:STAT ${b.checked?"ON":"OFF"}`);
+    else if(d.mkset){ await send(`CALC:MARK${d.mkset}:STAT ON`);
+                      $("mkOn"+d.mkset).checked=true;
+                      await send(`CALC:MARK${d.mkset}:X ${hz("mkF"+d.mkset,"mkU"+d.mkset)}`);
+                      await readMarker(+d.mkset); }
+    else if(d.mkpk){  await send(`CALC:MARK${d.mkpk}:STAT ON`);
+                      $("mkOn"+d.mkpk).checked=true;
+                      await send(`CALC:MARK${d.mkpk}:MAX:PEAK`);
+                      await readMarker(+d.mkpk); }
+    else if(d.mknx){  await send(`CALC:MARK${d.mknx}:MAX:NEXT`); await readMarker(+d.mknx); }
+    else if(d.mkrd)   await readMarker(+d.mkrd);
+  }catch(e){ log("! "+e.message,"er"); }
+});
+
+$("mkAllOff").onclick = async ()=>{
+  for(let n=1;n<=NMARK;n++){
+    try{ await send(`CALC:MARK${n}:STAT OFF`); }catch(e){ break; }
+    $("mkOn"+n).checked=false; $("mkY"+n).textContent="—";
+  }
+};
+$("mkReadAll").onclick = async ()=>{
+  for(let n=1;n<=NMARK;n++) if($("mkOn"+n).checked) await readMarker(n);
+};
+
+let pollTimer=null;
+$("mkPoll").onclick = function(){
+  if(pollTimer){ clearInterval(pollTimer); pollTimer=null; this.textContent="Auto-poll: off"; return; }
+  pollTimer = setInterval(()=>$("mkReadAll").click(), 1000);
+  this.textContent="Auto-poll: ON";
+};
+
+/* ── console ───────────────────────────────────────────── */
+$("btnSend").onclick = async ()=>{
+  const c = $("raw").value.trim(); if(!c) return;
+  try{ c.endsWith("?") ? await query(c,5000) : await send(c); }
+  catch(e){ log("! "+e.message,"er"); }
+};
+$("raw").addEventListener("keydown", e=>{ if(e.key==="Enter") $("btnSend").click(); });
+$("btnClear").onclick = ()=> $("log").innerHTML="";
+
+/* ── trace + plot ──────────────────────────────────────── */
+async function readTrace(){
+  try{
+    const [raw,f1,f2] = [await query("TRAC:DATA? TRACE1", 15000),
+                         parseFloat(await query("FREQ:STAR?")),
+                         parseFloat(await query("FREQ:STOP?"))];
+    const y = raw.split(",").map(Number).filter(v=>isFinite(v));
+    if(!y.length){ log("empty trace","er"); return; }
+    $("traceInfo").textContent = `${y.length} pts · ${fmtHz(f1)} – ${fmtHz(f2)} · max ${Math.max(...y).toFixed(2)} dBm`;
+    draw(y,f1,f2);
+  }catch(e){ log("! trace: "+e.message,"er"); }
+}
+function draw(y,f1,f2){
+  const cv=$("cv"), g=cv.getContext("2d"), W=cv.width, H=cv.height, P=44;
+  const lo=Math.min(...y), hi=Math.max(...y);
+  const yMax=Math.ceil((hi+5)/10)*10, yMin=Math.floor((lo-5)/10)*10;
+  const px=i=>P+(W-P-12)*i/(y.length-1), py=v=>H-28-(H-28-12)*(v-yMin)/(yMax-yMin);
+  g.fillStyle="#0b0f13"; g.fillRect(0,0,W,H);
+  g.strokeStyle="#232e38"; g.fillStyle="#8b9aa8"; g.font="12px monospace"; g.lineWidth=1;
+  for(let k=0;k<=10;k++){
+    const v=yMin+(yMax-yMin)*k/10, yy=py(v);
+    g.beginPath(); g.moveTo(P,yy); g.lineTo(W-12,yy); g.stroke();
+    g.fillText(v.toFixed(0), 6, yy+4);
+  }
+  for(let k=0;k<=10;k++){
+    const xx=P+(W-P-12)*k/10, f=f1+(f2-f1)*k/10;
+    g.beginPath(); g.moveTo(xx,12); g.lineTo(xx,H-28); g.stroke();
+    g.save(); g.textAlign="center"; g.fillText(fmtHz(f).replace(" ",""), xx, H-10); g.restore();
+  }
+  g.strokeStyle="#39b5e0"; g.lineWidth=1.4; g.beginPath();
+  y.forEach((v,i)=> i? g.lineTo(px(i),py(v)) : g.moveTo(px(i),py(v)));
+  g.stroke();
+}
+$("btnTrace").onclick = readTrace;
+let traceTimer=null;
+$("btnTraceLoop").onclick = function(){
+  if(traceTimer){ clearInterval(traceTimer); traceTimer=null; this.textContent="Auto-refresh: off"; return; }
+  traceTimer=setInterval(readTrace,2000); this.textContent="Auto-refresh: ON"; readTrace();
+};
+function stopPolls(){
+  if(pollTimer){ clearInterval(pollTimer); pollTimer=null; $("mkPoll").textContent="Auto-poll: off"; }
+  if(traceTimer){ clearInterval(traceTimer); traceTimer=null; $("btnTraceLoop").textContent="Auto-refresh: off"; }
+}
+
+$("btnConn").onclick = connect;
+$("btnDisc").onclick = disconnect;
+window.addEventListener("beforeunload", ()=>{ if(link) disconnect(); });
+
+/* transport selector */
+$("transport").onchange = function(){
+  $("tgtWrap").style.display = this.value==="bridge" ? "" : "none";
+};
+const servedByBridge = location.protocol.startsWith("http");
+if(!("serial" in navigator)){
+  $("transport").value = "bridge";
+  log("Web Serial is not available here — defaulting to the local bridge."
+      + (servedByBridge ? "" : " Open this page from http://localhost:8765/ (run: python fsc-bridge.py)."), "er");
+} else if(servedByBridge){
+  $("transport").value = "bridge";
+  log("Served by the bridge — using the local-bridge transport. "
+      + "Switch to Web Serial in the header if you prefer talking to a COM port directly.","sy");
+}
+$("transport").onchange();
+</script>
+</body>
+</html>
