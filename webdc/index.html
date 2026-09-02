@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TX Current Decay Test</title>
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body class="themed">
+
+<div class="app">
+
+  <header class="app-bar">
+    <div class="brand"><b>N6781A</b><span>TX current decay</span></div>
+    <div class="chips">
+      <div class="chip link"><span class="dot" id="cLink"></span><span id="cInstr">not connected</span></div>
+      <div class="chip">Reference<b id="cRef">—</b></div>
+      <div class="chip">Stop at<b id="cStop">—</b></div>
+      <div class="chip">Elapsed<b id="cElapsed">—</b></div>
+      <div class="chip">TX<b id="cCount">0</b></div>
+    </div>
+  </header>
+
+  <nav class="rail">
+      <div class="rail-group">Steps</div>
+      <button class="rail-item" data-view="connect" aria-current="true">1 · Connect<span class="n" id="nConn"></span></button>
+      <button class="rail-item" data-view="setup">2 · Reference<span class="n" id="nRef"></span></button>
+      <button class="rail-item" data-view="live">3 · Run<span class="n" id="nLive"></span></button>
+
+      <div class="rail-group">Results</div>
+      <button class="rail-item" data-view="review">Review<span class="n" id="nSaved"></span></button>
+
+      <div class="rail-foot">
+        <label for="palDir">Palette</label>
+        <select id="palDir" class="rail-select"></select>
+        <div class="mode-row" id="palModes">
+          <button data-mode="light" type="button">Light</button>
+          <button data-mode="mid" type="button">Mid</button>
+          <button data-mode="dark" type="button">Dark</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main">
+
+      <!-- ══════════ 1 · CONNECT ══════════ -->
+      <section class="view" id="viewConnect">
+        <div class="head">
+          <div>
+            <h1>Connect to the analyzer</h1>
+            <p>connecting only reads — nothing you configured is changed</p>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btnConnect">Connect</button>
+            <button class="btn" id="btnDisconnect" disabled>Disconnect</button>
+          </div>
+        </div>
+
+        <div class="notice" id="connBanner" hidden><span class="bang">—</span><span id="connText"></span></div>
+
+        <div class="panel">
+          <div class="panel-title">Instrument</div>
+          <div class="fields cols-3">
+            <div class="field span-2"><label for="resource">VISA resource</label>
+              <select id="resource"></select>
+              <div class="hint">N6705B enumerates as USBTMC via Keysight IO Libraries</div></div>
+            <div class="field"><label for="channel">Channel</label>
+              <input id="channel" value="3"></div>
+          </div>
+          <div class="readout" style="margin-top:var(--s4)">
+            <div><span>Identity</span><b id="iIdn">—</b></div>
+            <div><span>Module</span><b id="iModule">—</b></div>
+            <div><span>Emulation mode</span><b id="iEmul">—</b></div>
+            <div><span>Current range</span><b id="iRange">—</b></div>
+            <div><span>Terminal voltage</span><b id="iVolt">—</b></div>
+            <div><span>Output relay</span><b id="iOutput">—</b></div>
+            <div><span>Live current</span><b id="iCurrent">—</b></div>
+          </div>
+          <div class="notice plain" style="margin-top:var(--s4)"><span class="bang">i</span>
+            <span>This app <b>never writes</b> <code>EMUL</code>, <code>OUTP</code>,
+            <code>VOLT</code>, <code>CURR:LIM</code> or <code>CURR:RANG</code>. Set the
+            mode and range on the front panel; the test only reads them. Acquisition
+            settings are written when you record a reference or start a run, and are
+            restored when you disconnect.</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 2 · REFERENCE + SETTINGS ══════════ -->
+      <section class="view" id="viewSetup" hidden>
+        <div class="head">
+          <div>
+            <h1>Reference &amp; stop condition</h1>
+            <p id="setupSub">record a few transmissions, then set how far the current may fall</p>
+          </div>
+          <div class="actions">
+            <button class="btn" id="btnRecordRef">Record reference</button>
+            <button class="btn" id="btnCancelRef" disabled>Cancel</button>
+          </div>
+        </div>
+
+        <div class="notice" id="banner" hidden><span class="bang">—</span><span id="bannerText"></span></div>
+
+        <div class="panel">
+          <div class="panel-title">Step 1 — how the DUT behaves</div>
+          <div class="fields cols-3">
+            <div class="field"><label for="interval_s">DUT message interval (s)</label>
+              <input id="interval_s" value="33">
+              <div class="hint">how often the unit transmits</div></div>
+            <div class="field"><label for="trig_level_ma">TX detect level (mA)</label>
+              <input id="trig_level_ma" value="500">
+              <div class="hint">current that means "a TX is happening"</div></div>
+            <div class="field"><label for="ref_samples">Transmissions to record</label>
+              <input id="ref_samples" value="3">
+              <div class="hint">reference = their average peak</div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Step 2 — reference current
+            <span class="aside" id="refStatus">not recorded yet</span></div>
+          <div class="stats">
+            <div class="stat"><div class="k">Reference</div><div class="v" id="rRef">—</div></div>
+            <div class="stat"><div class="k">Spread</div><div class="v" id="rSpread">—</div></div>
+            <div class="stat"><div class="k">Recorded</div><div class="v" id="rCount">0</div></div>
+          </div>
+          <canvas class="screen short" id="refScreen" width="1600" height="420"
+                  style="margin-top:var(--s3)"></canvas>
+          <div class="fields cols-3" style="margin-top:var(--s3)">
+            <div class="field"><label for="ref_manual">Or enter the reference by hand (mA)</label>
+              <input id="ref_manual" placeholder="e.g. 700">
+              </div>
+            <div class="field" style="align-self:end">
+              <button class="btn sm" id="btnUseManual">Use this value</button></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Step 3 — when to stop</div>
+          <div class="fields cols-3">
+            <div class="field"><label for="drop_delta_ma">Drop delta (mA)</label>
+              <input id="drop_delta_ma" value="200">
+              <div class="hint">how far the current may fall</div></div>
+            <div class="field"><label>Stop level</label>
+              <input id="stopLevel" value="—" readonly tabindex="-1">
+              <div class="hint">reference − drop delta</div></div>
+            <div class="field"><label for="consecutive">Confirm over N transmissions</label>
+              <input id="consecutive" value="3">
+              </div>
+          </div>
+          <div class="notice plain" style="margin-top:var(--s3)"><span class="bang">i</span>
+            <span id="stopExplain">Set a reference first.</span></div>
+        </div>
+
+        <details class="panel" id="advPanel">
+          <summary class="panel-title" style="cursor:pointer;margin:0">Advanced — capture &amp; limits</summary>
+          <div class="fields" style="margin-top:var(--s3)">
+            <div class="field"><label for="window_ms">Capture window (ms)</label>
+              <input id="window_ms" value="600"><div class="hint">&gt; burst length</div></div>
+            <div class="field"><label for="tint_us">Sample interval (µs)</label>
+              <input id="tint_us" value="143.36"><div class="hint">20.48 µs steps</div></div>
+            <div class="field"><label for="pretrigger_pct">Pre-trigger (%)</label>
+              <input id="pretrigger_pct" value="10"></div>
+            <div class="field"><label for="trig_timeout_s">Wait timeout (s)</label>
+              <input id="trig_timeout_s" value="45"><div class="hint">&gt; interval</div></div>
+            <div class="field"><label for="trig_slope">Trigger slope</label>
+              <select id="trig_slope"><option>POS</option><option>NEG</option></select></div>
+            <div class="field"><label for="decimate_points">Stored points / TX</label>
+              <input id="decimate_points" value="500"></div>
+            <div class="field"><label for="max_duration_min">Max duration (min)</label>
+              <input id="max_duration_min" value="2880"></div>
+            <div class="field"><label for="max_measurements">Max transmissions</label>
+              <input id="max_measurements" value="20000"></div>
+            <div class="field"><label for="ref_retries">Missed-TX retries</label>
+              <input id="ref_retries" value="5"></div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ══════════ 3 · RUN ══════════ -->
+      <section class="view" id="viewLive" hidden>
+        <div class="head">
+          <div class="title-row">
+            <h1>Run</h1>
+            <div class="name-field">
+              <input id="test_name" value="tx-current" spellcheck="false"
+                     aria-label="Run name" placeholder="run name">
+              <span class="suffix">→ results-current/</span>
+            </div>
+            <p id="liveSub">not started</p>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="btnStart">Start</button>
+            <button class="btn danger" id="btnStop" disabled>Stop</button>
+          </div>
+        </div>
+
+        <div class="notice" id="runBanner" hidden><span class="bang">—</span><span id="runBannerText"></span></div>
+
+        <div class="stats">
+          <div class="stat"><div class="k">t0</div><div class="v" id="sT0">—</div></div>
+          <div class="stat"><div class="k">Elapsed</div><div class="v" id="sElapsed">—</div></div>
+          <div class="stat"><div class="k">Reference</div><div class="v" id="sRef">—</div></div>
+          <div class="stat"><div class="k">Stop at</div><div class="v" id="sStop">—</div></div>
+          <div class="stat"><div class="k">Last peak</div><div class="v" id="sPeak">—</div></div>
+          <div class="stat"><div class="k">Delta</div><div class="v" id="sDelta">—</div></div>
+          <div class="stat"><div class="k">Confirm</div><div class="v" id="sStreak">0</div></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Last transmission — current vs time
+            <span class="aside" id="screenInfo">no capture yet</span></div>
+          <canvas class="screen tall" id="screen" width="1600" height="600"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Peak current per transmission<span class="aside">hover to read · drag to focus a range</span></div>
+          <canvas class="screen short" id="decay" width="1600" height="420"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Transmissions
+            <span class="aside" id="tblNote">newest at the bottom</span></div>
+          <div class="table-wrap">
+            <table class="data" id="tbl">
+              <thead><tr><th>#</th><th>Clock</th><th>t+</th><th>Peak mA</th>
+                <th>Δ mA</th><th>Burst ms</th><th>TX</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ REVIEW ══════════ -->
+      <section class="view" id="viewReview" hidden>
+        <div class="head">
+          <div><h1>Review saved runs</h1><p id="vMeta">nothing loaded</p></div>
+          <div class="actions">
+            <select id="vRun" class="rail-select" style="width:auto;min-width:200px"></select>
+            <button class="btn sm" id="vRefresh">Refresh</button>
+          </div>
+        </div>
+
+        <div class="notice ok" id="vResult" hidden><span class="bang">✓</span><span id="vResultText"></span></div>
+
+        <div class="panel">
+          <div class="panel-title">TX viewer <span class="aside" id="vInfo">pick a run</span></div>
+          <div class="controls" style="margin-bottom:var(--s3)">
+            <button class="btn sm" id="vPrev">Prev</button>
+            <button class="btn sm" id="vNext">Next</button>
+            <button class="btn sm" id="vPlay">Play</button>
+            <input id="vSlider" type="range" min="0" max="0" value="0">
+            <span class="pos" id="vPos">—</span>
+          </div>
+          <canvas class="screen tall" id="vscreen" width="1600" height="600"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Decay curve<span class="aside">hover to read · drag to focus a range</span></div>
+          <canvas class="screen short" id="vdecay" width="1600" height="420"></canvas>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Transmissions</div>
+          <div class="table-wrap">
+            <table class="data" id="vtbl">
+              <thead><tr><th>#</th><th>Clock</th><th>t+</th><th>Peak mA</th>
+                <th>Δ mA</th><th>Burst ms</th><th>TX</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+  </main>
+
+  <div class="log-strip" id="log"></div>
+
+  <footer class="foot">
+    <span id="footLeft">TX current decay test</span>
+    <span id="footRight">measure-only · results-current/</span>
+  </footer>
+</div>
+
+<script src="js/theme.js"></script>
+<script src="js/plot.js"></script>
+<script src="js/api.js"></script>
+<script src="js/live.js"></script>
+<script src="js/review.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

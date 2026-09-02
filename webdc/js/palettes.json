@@ -1,0 +1,1822 @@
+[
+ {
+  "key": "anodized",
+  "name": "Anodized",
+  "blurb": "Cool grey, raised panels",
+  "family": "none",
+  "modes": {
+   "light": {
+    "appBar": "#FFFFFF",
+    "appBarBorder": "#DDDFE1",
+    "contentBg": "#F4F5F6",
+    "paper": "#FFFFFF",
+    "logBg": "#EEEFF1",
+    "data": {
+     "ok": "#1D7A43",
+     "warn": "#9A5B00",
+     "bad": "#B02A20",
+     "highlight": "rgba(58,66,73,0.07)"
+    },
+    "sidebar": {
+     "bg": "#EAECEE",
+     "bg2": "#EAECEE",
+     "border": "#DDDFE1",
+     "text": "#1B1F23",
+     "textDim": "#5C646B",
+     "accent": "#3A4249",
+     "accentSoft": "rgba(27,31,35,0.08)",
+     "accentSoftHover": "rgba(27,31,35,0.14)",
+     "hover": "rgba(27,31,35,0.05)",
+     "success": "#1D7A43",
+     "successOff": "#A2A9AF"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFFFF",
+      "bgHover": "#EAECEE",
+      "fg": "#2B3238",
+      "border": "#C6CACE"
+     },
+     "connect": {
+      "bg": "#1D7A43",
+      "bgHover": "#166035",
+      "fg": "#FFFFFF",
+      "border": "#1D7A43"
+     },
+     "disconnect": {
+      "bg": "#B02A20",
+      "bgHover": "#8D211A",
+      "fg": "#FFFFFF",
+      "border": "#B02A20"
+     },
+     "primary": {
+      "bg": "#3A4249",
+      "bgHover": "#2A3137",
+      "fg": "#FFFFFF",
+      "border": "#3A4249"
+     },
+     "danger": {
+      "bg": "#B02A20",
+      "bgHover": "#8D211A",
+      "fg": "#FFFFFF",
+      "border": "#B02A20"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#2E3236",
+    "appBarBorder": "#41464B",
+    "contentBg": "#2E3236",
+    "paper": "#35393E",
+    "logBg": "#26292D",
+    "data": {
+     "ok": "#58C07A",
+     "warn": "#E2A63F",
+     "bad": "#F07068",
+     "highlight": "rgba(198,206,213,0.10)"
+    },
+    "sidebar": {
+     "bg": "#24272B",
+     "bg2": "#24272B",
+     "border": "#41464B",
+     "text": "#E4E7EA",
+     "textDim": "#949AA0",
+     "accent": "#C6CED5",
+     "accentSoft": "rgba(255,255,255,0.08)",
+     "accentSoftHover": "rgba(255,255,255,0.13)",
+     "hover": "rgba(255,255,255,0.05)",
+     "success": "#58C07A",
+     "successOff": "#5D646A"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#35393E",
+      "bgHover": "#3E4348",
+      "fg": "#CBD1D6",
+      "border": "#4B5157"
+     },
+     "connect": {
+      "bg": "#4CC17C",
+      "bgHover": "#66CE92",
+      "fg": "#0E1411",
+      "border": "#4CC17C"
+     },
+     "disconnect": {
+      "bg": "#F07068",
+      "bgHover": "#F4867F",
+      "fg": "#180A09",
+      "border": "#F07068"
+     },
+     "primary": {
+      "bg": "#C6CED5",
+      "bgHover": "#DCE2E7",
+      "fg": "#1B1F23",
+      "border": "#C6CED5"
+     },
+     "danger": {
+      "bg": "#F07068",
+      "bgHover": "#F4867F",
+      "fg": "#180A09",
+      "border": "#F07068"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#141618",
+    "appBarBorder": "#24282B",
+    "contentBg": "#141618",
+    "paper": "#1B1E21",
+    "logBg": "#101214",
+    "data": {
+     "ok": "#5EC880",
+     "warn": "#E7AE4B",
+     "bad": "#F57C74",
+     "highlight": "rgba(214,221,227,0.10)"
+    },
+    "sidebar": {
+     "bg": "#0E1012",
+     "bg2": "#0E1012",
+     "border": "#24282B",
+     "text": "#D8DCE0",
+     "textDim": "#838A90",
+     "accent": "#D6DDE3",
+     "accentSoft": "rgba(255,255,255,0.06)",
+     "accentSoftHover": "rgba(255,255,255,0.11)",
+     "hover": "rgba(255,255,255,0.04)",
+     "success": "#5EC880",
+     "successOff": "#3C4145"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#1B1E21",
+      "bgHover": "#23272A",
+      "fg": "#C2C8CD",
+      "border": "#2E3337"
+     },
+     "connect": {
+      "bg": "#52CE84",
+      "bgHover": "#6FD99A",
+      "fg": "#08120B",
+      "border": "#52CE84"
+     },
+     "disconnect": {
+      "bg": "#F57C74",
+      "bgHover": "#F8918B",
+      "fg": "#1A0908",
+      "border": "#F57C74"
+     },
+     "primary": {
+      "bg": "#D6DDE3",
+      "bgHover": "#E9EEF2",
+      "fg": "#101214",
+      "border": "#D6DDE3"
+     },
+     "danger": {
+      "bg": "#F57C74",
+      "bgHover": "#F8918B",
+      "fg": "#1A0908",
+      "border": "#F57C74"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "graphite",
+  "name": "Graphite",
+  "blurb": "True grey, recessed panels",
+  "family": "none",
+  "modes": {
+   "light": {
+    "appBar": "#FFFFFF",
+    "appBarBorder": "#DCDCDC",
+    "contentBg": "#FFFFFF",
+    "paper": "#F5F5F5",
+    "logBg": "#F0F0F0",
+    "data": {
+     "ok": "#16733F",
+     "warn": "#92580A",
+     "bad": "#AE2A20",
+     "highlight": "rgba(0,0,0,0.06)"
+    },
+    "sidebar": {
+     "bg": "#F5F5F5",
+     "bg2": "#F5F5F5",
+     "border": "#DCDCDC",
+     "text": "#171717",
+     "textDim": "#575757",
+     "accent": "#262626",
+     "accentSoft": "rgba(0,0,0,0.07)",
+     "accentSoftHover": "rgba(0,0,0,0.13)",
+     "hover": "rgba(0,0,0,0.045)",
+     "success": "#16733F",
+     "successOff": "#A8A8A8"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFFFF",
+      "bgHover": "#F0F0F0",
+      "fg": "#262626",
+      "border": "#C9C9C9"
+     },
+     "connect": {
+      "bg": "#16733F",
+      "bgHover": "#115C32",
+      "fg": "#FFFFFF",
+      "border": "#16733F"
+     },
+     "disconnect": {
+      "bg": "#AE2A20",
+      "bgHover": "#8A211A",
+      "fg": "#FFFFFF",
+      "border": "#AE2A20"
+     },
+     "primary": {
+      "bg": "#262626",
+      "bgHover": "#111111",
+      "fg": "#FFFFFF",
+      "border": "#262626"
+     },
+     "danger": {
+      "bg": "#AE2A20",
+      "bgHover": "#8A211A",
+      "fg": "#FFFFFF",
+      "border": "#AE2A20"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#333333",
+    "appBarBorder": "#454545",
+    "contentBg": "#333333",
+    "paper": "#2B2B2B",
+    "logBg": "#262626",
+    "data": {
+     "ok": "#5BC27C",
+     "warn": "#E3A73F",
+     "bad": "#F17169",
+     "highlight": "rgba(255,255,255,0.08)"
+    },
+    "sidebar": {
+     "bg": "#2B2B2B",
+     "bg2": "#2B2B2B",
+     "border": "#454545",
+     "text": "#E8E8E8",
+     "textDim": "#9E9E9E",
+     "accent": "#E0E0E0",
+     "accentSoft": "rgba(255,255,255,0.09)",
+     "accentSoftHover": "rgba(255,255,255,0.14)",
+     "hover": "rgba(255,255,255,0.05)",
+     "success": "#5BC27C",
+     "successOff": "#616161"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#2B2B2B",
+      "bgHover": "#353535",
+      "fg": "#D0D0D0",
+      "border": "#4A4A4A"
+     },
+     "connect": {
+      "bg": "#4FC480",
+      "bgHover": "#69CF94",
+      "fg": "#0D1410",
+      "border": "#4FC480"
+     },
+     "disconnect": {
+      "bg": "#F17169",
+      "bgHover": "#F5877F",
+      "fg": "#180A09",
+      "border": "#F17169"
+     },
+     "primary": {
+      "bg": "#E0E0E0",
+      "bgHover": "#F0F0F0",
+      "fg": "#1A1A1A",
+      "border": "#E0E0E0"
+     },
+     "danger": {
+      "bg": "#F17169",
+      "bgHover": "#F5877F",
+      "fg": "#180A09",
+      "border": "#F17169"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#1C1C1C",
+    "appBarBorder": "#2C2C2C",
+    "contentBg": "#1C1C1C",
+    "paper": "#161616",
+    "logBg": "#121212",
+    "data": {
+     "ok": "#61CA84",
+     "warn": "#E9B04D",
+     "bad": "#F67D75",
+     "highlight": "rgba(255,255,255,0.07)"
+    },
+    "sidebar": {
+     "bg": "#161616",
+     "bg2": "#161616",
+     "border": "#2C2C2C",
+     "text": "#DCDCDC",
+     "textDim": "#8A8A8A",
+     "accent": "#E8E8E8",
+     "accentSoft": "rgba(255,255,255,0.07)",
+     "accentSoftHover": "rgba(255,255,255,0.12)",
+     "hover": "rgba(255,255,255,0.045)",
+     "success": "#61CA84",
+     "successOff": "#3E3E3E"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#161616",
+      "bgHover": "#1F1F1F",
+      "fg": "#C8C8C8",
+      "border": "#303030"
+     },
+     "connect": {
+      "bg": "#55D086",
+      "bgHover": "#71DB9C",
+      "fg": "#08120B",
+      "border": "#55D086"
+     },
+     "disconnect": {
+      "bg": "#F67D75",
+      "bgHover": "#F9928C",
+      "fg": "#1A0908",
+      "border": "#F67D75"
+     },
+     "primary": {
+      "bg": "#E8E8E8",
+      "bgHover": "#F7F7F7",
+      "fg": "#141414",
+      "border": "#E8E8E8"
+     },
+     "danger": {
+      "bg": "#F67D75",
+      "bgHover": "#F9928C",
+      "fg": "#1A0908",
+      "border": "#F67D75"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "slate",
+  "name": "Slate",
+  "blurb": "Cool cast, softened contrast",
+  "family": "none",
+  "modes": {
+   "light": {
+    "appBar": "#FFFFFF",
+    "appBarBorder": "#DCE1E6",
+    "contentBg": "#F5F7F9",
+    "paper": "#FFFFFF",
+    "logBg": "#EFF2F5",
+    "data": {
+     "ok": "#19733F",
+     "warn": "#96580A",
+     "bad": "#AD2B25",
+     "highlight": "rgba(56,69,82,0.07)"
+    },
+    "sidebar": {
+     "bg": "#E9EDF1",
+     "bg2": "#E9EDF1",
+     "border": "#DCE1E6",
+     "text": "#1C232B",
+     "textDim": "#5D6874",
+     "accent": "#384552",
+     "accentSoft": "rgba(28,35,43,0.08)",
+     "accentSoftHover": "rgba(28,35,43,0.14)",
+     "hover": "rgba(28,35,43,0.05)",
+     "success": "#19733F",
+     "successOff": "#9BA5AF"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFFFF",
+      "bgHover": "#E9EDF1",
+      "fg": "#2A343E",
+      "border": "#C5CCD4"
+     },
+     "connect": {
+      "bg": "#19733F",
+      "bgHover": "#135B32",
+      "fg": "#FFFFFF",
+      "border": "#19733F"
+     },
+     "disconnect": {
+      "bg": "#AD2B25",
+      "bgHover": "#8A221E",
+      "fg": "#FFFFFF",
+      "border": "#AD2B25"
+     },
+     "primary": {
+      "bg": "#384552",
+      "bgHover": "#28323C",
+      "fg": "#FFFFFF",
+      "border": "#384552"
+     },
+     "danger": {
+      "bg": "#AD2B25",
+      "bgHover": "#8A221E",
+      "fg": "#FFFFFF",
+      "border": "#AD2B25"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#2F353C",
+    "appBarBorder": "#424A53",
+    "contentBg": "#2F353C",
+    "paper": "#363D45",
+    "logBg": "#272C32",
+    "data": {
+     "ok": "#57BF79",
+     "warn": "#E1A63E",
+     "bad": "#EF7169",
+     "highlight": "rgba(196,205,214,0.10)"
+    },
+    "sidebar": {
+     "bg": "#262B31",
+     "bg2": "#262B31",
+     "border": "#424A53",
+     "text": "#E1E6EB",
+     "textDim": "#9AA3AD",
+     "accent": "#C4CDD6",
+     "accentSoft": "rgba(255,255,255,0.08)",
+     "accentSoftHover": "rgba(255,255,255,0.13)",
+     "hover": "rgba(255,255,255,0.05)",
+     "success": "#57BF79",
+     "successOff": "#5C646D"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#363D45",
+      "bgHover": "#3F474F",
+      "fg": "#C9D1D9",
+      "border": "#4C555F"
+     },
+     "connect": {
+      "bg": "#4CC17C",
+      "bgHover": "#66CE92",
+      "fg": "#0D1410",
+      "border": "#4CC17C"
+     },
+     "disconnect": {
+      "bg": "#EF7169",
+      "bgHover": "#F3877F",
+      "fg": "#180B0A",
+      "border": "#EF7169"
+     },
+     "primary": {
+      "bg": "#C4CDD6",
+      "bgHover": "#DBE2E8",
+      "fg": "#1C232B",
+      "border": "#C4CDD6"
+     },
+     "danger": {
+      "bg": "#EF7169",
+      "bgHover": "#F3877F",
+      "fg": "#180B0A",
+      "border": "#EF7169"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#14181D",
+    "appBarBorder": "#262C33",
+    "contentBg": "#14181D",
+    "paper": "#1A1F25",
+    "logBg": "#101418",
+    "data": {
+     "ok": "#5DC77F",
+     "warn": "#E6AD4A",
+     "bad": "#F47B73",
+     "highlight": "rgba(213,219,225,0.09)"
+    },
+    "sidebar": {
+     "bg": "#0E1216",
+     "bg2": "#0E1216",
+     "border": "#262C33",
+     "text": "#D5DBE1",
+     "textDim": "#818A94",
+     "accent": "#D5DBE1",
+     "accentSoft": "rgba(255,255,255,0.06)",
+     "accentSoftHover": "rgba(255,255,255,0.11)",
+     "hover": "rgba(255,255,255,0.04)",
+     "success": "#5DC77F",
+     "successOff": "#3B4149"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#1A1F25",
+      "bgHover": "#222831",
+      "fg": "#C0C7CE",
+      "border": "#2F363E"
+     },
+     "connect": {
+      "bg": "#51CD83",
+      "bgHover": "#6DD899",
+      "fg": "#08120B",
+      "border": "#51CD83"
+     },
+     "disconnect": {
+      "bg": "#F47B73",
+      "bgHover": "#F79089",
+      "fg": "#1A0908",
+      "border": "#F47B73"
+     },
+     "primary": {
+      "bg": "#D5DBE1",
+      "bgHover": "#E8EDF1",
+      "fg": "#101418",
+      "border": "#D5DBE1"
+     },
+     "danger": {
+      "bg": "#F47B73",
+      "bgHover": "#F79089",
+      "fg": "#1A0908",
+      "border": "#F47B73"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "bone",
+  "name": "Bone",
+  "blurb": "Warm grey, no chroma",
+  "family": "none",
+  "modes": {
+   "light": {
+    "appBar": "#FFFEFC",
+    "appBarBorder": "#E2DED8",
+    "contentBg": "#F7F5F2",
+    "paper": "#FFFEFC",
+    "logBg": "#F1EEE9",
+    "data": {
+     "ok": "#2E6B3C",
+     "warn": "#94590B",
+     "bad": "#A93225",
+     "highlight": "rgba(62,57,49,0.07)"
+    },
+    "sidebar": {
+     "bg": "#EDEAE4",
+     "bg2": "#EDEAE4",
+     "border": "#E2DED8",
+     "text": "#211E1A",
+     "textDim": "#635E56",
+     "accent": "#3E3931",
+     "accentSoft": "rgba(33,30,26,0.08)",
+     "accentSoftHover": "rgba(33,30,26,0.14)",
+     "hover": "rgba(33,30,26,0.05)",
+     "success": "#2E6B3C",
+     "successOff": "#A69F93"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFEFC",
+      "bgHover": "#EDEAE4",
+      "fg": "#33302A",
+      "border": "#CCC6BC"
+     },
+     "connect": {
+      "bg": "#2E6B3C",
+      "bgHover": "#245430",
+      "fg": "#FFFFFF",
+      "border": "#2E6B3C"
+     },
+     "disconnect": {
+      "bg": "#A93225",
+      "bgHover": "#87281E",
+      "fg": "#FFFFFF",
+      "border": "#A93225"
+     },
+     "primary": {
+      "bg": "#3E3931",
+      "bgHover": "#2C2822",
+      "fg": "#FFFFFF",
+      "border": "#3E3931"
+     },
+     "danger": {
+      "bg": "#A93225",
+      "bgHover": "#87281E",
+      "fg": "#FFFFFF",
+      "border": "#A93225"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#35322D",
+    "appBarBorder": "#4A463F",
+    "contentBg": "#35322D",
+    "paper": "#3C3833",
+    "logBg": "#2C2925",
+    "data": {
+     "ok": "#62BE7E",
+     "warn": "#E2A845",
+     "bad": "#EF7A6C",
+     "highlight": "rgba(214,208,198,0.10)"
+    },
+    "sidebar": {
+     "bg": "#2B2823",
+     "bg2": "#2B2823",
+     "border": "#4A463F",
+     "text": "#EAE6DF",
+     "textDim": "#A79F94",
+     "accent": "#D6D0C6",
+     "accentSoft": "rgba(255,255,255,0.08)",
+     "accentSoftHover": "rgba(255,255,255,0.13)",
+     "hover": "rgba(255,255,255,0.05)",
+     "success": "#62BE7E",
+     "successOff": "#635E55"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#3C3833",
+      "bgHover": "#45413A",
+      "fg": "#D2CCC2",
+      "border": "#524D45"
+     },
+     "connect": {
+      "bg": "#57C285",
+      "bgHover": "#72CE9B",
+      "fg": "#0E1410",
+      "border": "#57C285"
+     },
+     "disconnect": {
+      "bg": "#EF7A6C",
+      "bgHover": "#F38E82",
+      "fg": "#180B0A",
+      "border": "#EF7A6C"
+     },
+     "primary": {
+      "bg": "#D6D0C6",
+      "bgHover": "#E8E3DA",
+      "fg": "#221F1A",
+      "border": "#D6D0C6"
+     },
+     "danger": {
+      "bg": "#EF7A6C",
+      "bgHover": "#F38E82",
+      "fg": "#180B0A",
+      "border": "#EF7A6C"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#1A1815",
+    "appBarBorder": "#2E2A25",
+    "contentBg": "#1A1815",
+    "paper": "#211E1A",
+    "logBg": "#151310",
+    "data": {
+     "ok": "#68C583",
+     "warn": "#E7AF50",
+     "bad": "#F5867A",
+     "highlight": "rgba(221,216,208,0.09)"
+    },
+    "sidebar": {
+     "bg": "#131110",
+     "bg2": "#131110",
+     "border": "#2E2A25",
+     "text": "#DDD8D0",
+     "textDim": "#8B857B",
+     "accent": "#DDD8D0",
+     "accentSoft": "rgba(255,255,255,0.06)",
+     "accentSoftHover": "rgba(255,255,255,0.11)",
+     "hover": "rgba(255,255,255,0.04)",
+     "success": "#68C583",
+     "successOff": "#423E38"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#211E1A",
+      "bgHover": "#292520",
+      "fg": "#C8C2B9",
+      "border": "#332F29"
+     },
+     "connect": {
+      "bg": "#5CCB8A",
+      "bgHover": "#78D6A0",
+      "fg": "#07110A",
+      "border": "#5CCB8A"
+     },
+     "disconnect": {
+      "bg": "#F5867A",
+      "bgHover": "#F89A90",
+      "fg": "#1A0908",
+      "border": "#F5867A"
+     },
+     "primary": {
+      "bg": "#DDD8D0",
+      "bgHover": "#EFEBE5",
+      "fg": "#17140F",
+      "border": "#DDD8D0"
+     },
+     "danger": {
+      "bg": "#F5867A",
+      "bgHover": "#F89A90",
+      "fg": "#1A0908",
+      "border": "#F5867A"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "ink",
+  "name": "Ink",
+  "blurb": "Pure grounds, hairline rules",
+  "family": "none",
+  "modes": {
+   "light": {
+    "appBar": "#FFFFFF",
+    "appBarBorder": "#E0E0E0",
+    "contentBg": "#FFFFFF",
+    "paper": "#FFFFFF",
+    "logBg": "#F7F7F7",
+    "data": {
+     "ok": "#006B3B",
+     "warn": "#855000",
+     "bad": "#BE1414",
+     "highlight": "rgba(0,0,0,0.06)"
+    },
+    "sidebar": {
+     "bg": "#FBFBFB",
+     "bg2": "#FBFBFB",
+     "border": "#E0E0E0",
+     "text": "#000000",
+     "textDim": "#565656",
+     "accent": "#000000",
+     "accentSoft": "rgba(0,0,0,0.08)",
+     "accentSoftHover": "rgba(0,0,0,0.14)",
+     "hover": "rgba(0,0,0,0.04)",
+     "success": "#006B3B",
+     "successOff": "#A3A3A3"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFFFF",
+      "bgHover": "#F2F2F2",
+      "fg": "#000000",
+      "border": "#CCCCCC"
+     },
+     "connect": {
+      "bg": "#006B3B",
+      "bgHover": "#00552F",
+      "fg": "#FFFFFF",
+      "border": "#006B3B"
+     },
+     "disconnect": {
+      "bg": "#BE1414",
+      "bgHover": "#980F0F",
+      "fg": "#FFFFFF",
+      "border": "#BE1414"
+     },
+     "primary": {
+      "bg": "#000000",
+      "bgHover": "#1F1F1F",
+      "fg": "#FFFFFF",
+      "border": "#000000"
+     },
+     "danger": {
+      "bg": "#BE1414",
+      "bgHover": "#980F0F",
+      "fg": "#FFFFFF",
+      "border": "#BE1414"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#1A1A1A",
+    "appBarBorder": "#333333",
+    "contentBg": "#1A1A1A",
+    "paper": "#212121",
+    "logBg": "#141414",
+    "data": {
+     "ok": "#40CC75",
+     "warn": "#E6AA3D",
+     "bad": "#FF5D5D",
+     "highlight": "rgba(255,255,255,0.09)"
+    },
+    "sidebar": {
+     "bg": "#121212",
+     "bg2": "#121212",
+     "border": "#333333",
+     "text": "#FFFFFF",
+     "textDim": "#939393",
+     "accent": "#FFFFFF",
+     "accentSoft": "rgba(255,255,255,0.10)",
+     "accentSoftHover": "rgba(255,255,255,0.16)",
+     "hover": "rgba(255,255,255,0.06)",
+     "success": "#40CC75",
+     "successOff": "#5C5C5C"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#212121",
+      "bgHover": "#2C2C2C",
+      "fg": "#DCDCDC",
+      "border": "#3D3D3D"
+     },
+     "connect": {
+      "bg": "#40CC75",
+      "bgHover": "#5ED78D",
+      "fg": "#0A140D",
+      "border": "#40CC75"
+     },
+     "disconnect": {
+      "bg": "#FF5D5D",
+      "bgHover": "#FF7B7B",
+      "fg": "#1A0707",
+      "border": "#FF5D5D"
+     },
+     "primary": {
+      "bg": "#FFFFFF",
+      "bgHover": "#E6E6E6",
+      "fg": "#000000",
+      "border": "#FFFFFF"
+     },
+     "danger": {
+      "bg": "#FF5D5D",
+      "bgHover": "#FF7B7B",
+      "fg": "#1A0707",
+      "border": "#FF5D5D"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#000000",
+    "appBarBorder": "#212121",
+    "contentBg": "#000000",
+    "paper": "#0A0A0A",
+    "logBg": "#000000",
+    "data": {
+     "ok": "#46D77D",
+     "warn": "#ECB348",
+     "bad": "#FF6C6C",
+     "highlight": "rgba(255,255,255,0.08)"
+    },
+    "sidebar": {
+     "bg": "#000000",
+     "bg2": "#000000",
+     "border": "#212121",
+     "text": "#FFFFFF",
+     "textDim": "#8D8D8D",
+     "accent": "#FFFFFF",
+     "accentSoft": "rgba(255,255,255,0.09)",
+     "accentSoftHover": "rgba(255,255,255,0.15)",
+     "hover": "rgba(255,255,255,0.05)",
+     "success": "#46D77D",
+     "successOff": "#3B3B3B"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#0A0A0A",
+      "bgHover": "#171717",
+      "fg": "#D2D2D2",
+      "border": "#2A2A2A"
+     },
+     "connect": {
+      "bg": "#46D77D",
+      "bgHover": "#64E197",
+      "fg": "#031309",
+      "border": "#46D77D"
+     },
+     "disconnect": {
+      "bg": "#FF6C6C",
+      "bgHover": "#FF8888",
+      "fg": "#1A0606",
+      "border": "#FF6C6C"
+     },
+     "primary": {
+      "bg": "#FFFFFF",
+      "bgHover": "#E8E8E8",
+      "fg": "#000000",
+      "border": "#FFFFFF"
+     },
+     "danger": {
+      "bg": "#FF6C6C",
+      "bgHover": "#FF8888",
+      "fg": "#1A0606",
+      "border": "#FF6C6C"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "lead",
+  "name": "Lead",
+  "blurb": "Compressed range, muted triad",
+  "family": "none",
+  "modes": {
+   "light": {
+    "appBar": "#F9F9F7",
+    "appBarBorder": "#DFDFDC",
+    "contentBg": "#F2F2F0",
+    "paper": "#F9F9F7",
+    "logBg": "#ECECEA",
+    "data": {
+     "ok": "#3D6B48",
+     "warn": "#8A6023",
+     "bad": "#9E3B33",
+     "highlight": "rgba(74,74,70,0.06)"
+    },
+    "sidebar": {
+     "bg": "#E9E9E6",
+     "bg2": "#E9E9E6",
+     "border": "#DFDFDC",
+     "text": "#2A2A28",
+     "textDim": "#6A6A66",
+     "accent": "#4A4A46",
+     "accentSoft": "rgba(42,42,40,0.07)",
+     "accentSoftHover": "rgba(42,42,40,0.12)",
+     "hover": "rgba(42,42,40,0.04)",
+     "success": "#3D6B48",
+     "successOff": "#A5A5A0"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#F9F9F7",
+      "bgHover": "#EDEDEA",
+      "fg": "#3A3A37",
+      "border": "#CBCBC7"
+     },
+     "connect": {
+      "bg": "#3D6B48",
+      "bgHover": "#31563A",
+      "fg": "#FFFFFF",
+      "border": "#3D6B48"
+     },
+     "disconnect": {
+      "bg": "#9E3B33",
+      "bgHover": "#7E2F29",
+      "fg": "#FFFFFF",
+      "border": "#9E3B33"
+     },
+     "primary": {
+      "bg": "#4A4A46",
+      "bgHover": "#383835",
+      "fg": "#FFFFFF",
+      "border": "#4A4A46"
+     },
+     "danger": {
+      "bg": "#9E3B33",
+      "bgHover": "#7E2F29",
+      "fg": "#FFFFFF",
+      "border": "#9E3B33"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#3A3A38",
+    "appBarBorder": "#4C4C4A",
+    "contentBg": "#3A3A38",
+    "paper": "#414140",
+    "logBg": "#323231",
+    "data": {
+     "ok": "#7FB68C",
+     "warn": "#D2A45E",
+     "bad": "#E08A80",
+     "highlight": "rgba(192,192,188,0.09)"
+    },
+    "sidebar": {
+     "bg": "#313130",
+     "bg2": "#313130",
+     "border": "#4C4C4A",
+     "text": "#DCDCD9",
+     "textDim": "#A5A5A1",
+     "accent": "#C0C0BC",
+     "accentSoft": "rgba(255,255,255,0.07)",
+     "accentSoftHover": "rgba(255,255,255,0.12)",
+     "hover": "rgba(255,255,255,0.045)",
+     "success": "#7FB68C",
+     "successOff": "#656562"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#414140",
+      "bgHover": "#4A4A48",
+      "fg": "#C6C6C2",
+      "border": "#565654"
+     },
+     "connect": {
+      "bg": "#6FB584",
+      "bgHover": "#88C39A",
+      "fg": "#101512",
+      "border": "#6FB584"
+     },
+     "disconnect": {
+      "bg": "#E08A80",
+      "bgHover": "#E79D95",
+      "fg": "#180C0B",
+      "border": "#E08A80"
+     },
+     "primary": {
+      "bg": "#C0C0BC",
+      "bgHover": "#D5D5D1",
+      "fg": "#262624",
+      "border": "#C0C0BC"
+     },
+     "danger": {
+      "bg": "#E08A80",
+      "bgHover": "#E79D95",
+      "fg": "#180C0B",
+      "border": "#E08A80"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#212120",
+    "appBarBorder": "#333332",
+    "contentBg": "#212120",
+    "paper": "#282827",
+    "logBg": "#1B1B1A",
+    "data": {
+     "ok": "#84BC91",
+     "warn": "#D6A962",
+     "bad": "#E49088",
+     "highlight": "rgba(202,202,198,0.08)"
+    },
+    "sidebar": {
+     "bg": "#1A1A19",
+     "bg2": "#1A1A19",
+     "border": "#333332",
+     "text": "#D2D2CF",
+     "textDim": "#8A8A87",
+     "accent": "#CACAC6",
+     "accentSoft": "rgba(255,255,255,0.06)",
+     "accentSoftHover": "rgba(255,255,255,0.11)",
+     "hover": "rgba(255,255,255,0.04)",
+     "success": "#84BC91",
+     "successOff": "#454543"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#282827",
+      "bgHover": "#302F2E",
+      "fg": "#BFBFBB",
+      "border": "#3A3A38"
+     },
+     "connect": {
+      "bg": "#74BA89",
+      "bgHover": "#8DC79E",
+      "fg": "#0D120F",
+      "border": "#74BA89"
+     },
+     "disconnect": {
+      "bg": "#E49088",
+      "bgHover": "#EAA39C",
+      "fg": "#180C0B",
+      "border": "#E49088"
+     },
+     "primary": {
+      "bg": "#CACAC6",
+      "bgHover": "#DEDEDA",
+      "fg": "#1D1D1C",
+      "border": "#CACAC6"
+     },
+     "danger": {
+      "bg": "#E49088",
+      "bgHover": "#EAA39C",
+      "fg": "#180C0B",
+      "border": "#E49088"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "phosphor",
+  "name": "Phosphor",
+  "blurb": "CRT lineage, teal signal",
+  "family": "hue",
+  "modes": {
+   "light": {
+    "appBar": "#FFFFFF",
+    "appBarBorder": "#D8E1E1",
+    "contentBg": "#F3F7F6",
+    "paper": "#FFFFFF",
+    "logBg": "#EBF1F0",
+    "data": {
+     "ok": "#14713C",
+     "warn": "#A05A00",
+     "bad": "#B32A22",
+     "highlight": "rgba(11,126,140,0.10)"
+    },
+    "sidebar": {
+     "bg": "#E7EEED",
+     "bg2": "#E7EEED",
+     "border": "#D8E1E1",
+     "text": "#16211F",
+     "textDim": "#566360",
+     "accent": "#0B7E8C",
+     "accentSoft": "rgba(11,126,140,0.11)",
+     "accentSoftHover": "rgba(11,126,140,0.18)",
+     "hover": "rgba(22,33,31,0.05)",
+     "success": "#14713C",
+     "successOff": "#97A5A2"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFFFF",
+      "bgHover": "#E7EEED",
+      "fg": "#25322F",
+      "border": "#C3CFCD"
+     },
+     "connect": {
+      "bg": "#14713C",
+      "bgHover": "#0F5A2F",
+      "fg": "#FFFFFF",
+      "border": "#14713C"
+     },
+     "disconnect": {
+      "bg": "#B32A22",
+      "bgHover": "#8F211B",
+      "fg": "#FFFFFF",
+      "border": "#B32A22"
+     },
+     "primary": {
+      "bg": "#0B7E8C",
+      "bgHover": "#086673",
+      "fg": "#FFFFFF",
+      "border": "#0B7E8C"
+     },
+     "danger": {
+      "bg": "#B32A22",
+      "bgHover": "#8F211B",
+      "fg": "#FFFFFF",
+      "border": "#B32A22"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#232A29",
+    "appBarBorder": "#35403E",
+    "contentBg": "#232A29",
+    "paper": "#2A3231",
+    "logBg": "#1D2423",
+    "data": {
+     "ok": "#4FBE72",
+     "warn": "#DFA53C",
+     "bad": "#EF6A60",
+     "highlight": "rgba(63,199,212,0.12)"
+    },
+    "sidebar": {
+     "bg": "#1B2221",
+     "bg2": "#1B2221",
+     "border": "#35403E",
+     "text": "#E0E7E5",
+     "textDim": "#8D9997",
+     "accent": "#3FC7D4",
+     "accentSoft": "rgba(255,255,255,0.07)",
+     "accentSoftHover": "rgba(255,255,255,0.12)",
+     "hover": "rgba(255,255,255,0.045)",
+     "success": "#4FBE72",
+     "successOff": "#58635F"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#2A3231",
+      "bgHover": "#333B3A",
+      "fg": "#C6D0CE",
+      "border": "#404A48"
+     },
+     "connect": {
+      "bg": "#45BE76",
+      "bgHover": "#5FCB8B",
+      "fg": "#0C1512",
+      "border": "#45BE76"
+     },
+     "disconnect": {
+      "bg": "#EF6A60",
+      "bgHover": "#F38079",
+      "fg": "#180B0A",
+      "border": "#EF6A60"
+     },
+     "primary": {
+      "bg": "#3FC7D4",
+      "bgHover": "#63D3DE",
+      "fg": "#08181A",
+      "border": "#3FC7D4"
+     },
+     "danger": {
+      "bg": "#EF6A60",
+      "bgHover": "#F38079",
+      "fg": "#180B0A",
+      "border": "#EF6A60"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#0C1211",
+    "appBarBorder": "#1E2726",
+    "contentBg": "#0C1211",
+    "paper": "#131A19",
+    "logBg": "#090E0D",
+    "data": {
+     "ok": "#56C87A",
+     "warn": "#E4B04E",
+     "bad": "#F5837B",
+     "highlight": "rgba(72,214,226,0.12)"
+    },
+    "sidebar": {
+     "bg": "#070C0B",
+     "bg2": "#070C0B",
+     "border": "#1E2726",
+     "text": "#D2DCDA",
+     "textDim": "#7B8785",
+     "accent": "#48D6E2",
+     "accentSoft": "rgba(255,255,255,0.06)",
+     "accentSoftHover": "rgba(255,255,255,0.11)",
+     "hover": "rgba(255,255,255,0.04)",
+     "success": "#56C87A",
+     "successOff": "#38423F"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#131A19",
+      "bgHover": "#1B2322",
+      "fg": "#BCC7C5",
+      "border": "#28322F"
+     },
+     "connect": {
+      "bg": "#4ECB80",
+      "bgHover": "#6BD696",
+      "fg": "#06110A",
+      "border": "#4ECB80"
+     },
+     "disconnect": {
+      "bg": "#F5837B",
+      "bgHover": "#F89791",
+      "fg": "#1A0908",
+      "border": "#F5837B"
+     },
+     "primary": {
+      "bg": "#48D6E2",
+      "bgHover": "#6FE1EA",
+      "fg": "#04181B",
+      "border": "#48D6E2"
+     },
+     "danger": {
+      "bg": "#F5837B",
+      "bgHover": "#F89791",
+      "fg": "#1A0908",
+      "border": "#F5837B"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "blueprint",
+  "name": "Blueprint",
+  "blurb": "Navy ground, drafting indigo",
+  "family": "hue",
+  "modes": {
+   "light": {
+    "appBar": "#FFFFFF",
+    "appBarBorder": "#D5DDEA",
+    "contentBg": "#F3F6FB",
+    "paper": "#FFFFFF",
+    "logBg": "#EAEFF7",
+    "data": {
+     "ok": "#12703F",
+     "warn": "#97590A",
+     "bad": "#AE2A2A",
+     "highlight": "rgba(45,90,180,0.09)"
+    },
+    "sidebar": {
+     "bg": "#E6ECF6",
+     "bg2": "#E6ECF6",
+     "border": "#D5DDEA",
+     "text": "#16233D",
+     "textDim": "#566180",
+     "accent": "#2D5AB4",
+     "accentSoft": "rgba(45,90,180,0.10)",
+     "accentSoftHover": "rgba(45,90,180,0.17)",
+     "hover": "rgba(22,35,61,0.05)",
+     "success": "#12703F",
+     "successOff": "#97A2B8"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFFFF",
+      "bgHover": "#E6ECF6",
+      "fg": "#26324C",
+      "border": "#C2CBDD"
+     },
+     "connect": {
+      "bg": "#12703F",
+      "bgHover": "#0D5932",
+      "fg": "#FFFFFF",
+      "border": "#12703F"
+     },
+     "disconnect": {
+      "bg": "#AE2A2A",
+      "bgHover": "#8B2121",
+      "fg": "#FFFFFF",
+      "border": "#AE2A2A"
+     },
+     "primary": {
+      "bg": "#2D5AB4",
+      "bgHover": "#244893",
+      "fg": "#FFFFFF",
+      "border": "#2D5AB4"
+     },
+     "danger": {
+      "bg": "#AE2A2A",
+      "bgHover": "#8B2121",
+      "fg": "#FFFFFF",
+      "border": "#AE2A2A"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#1E2740",
+    "appBarBorder": "#33405F",
+    "contentBg": "#1E2740",
+    "paper": "#253048",
+    "logBg": "#182034",
+    "data": {
+     "ok": "#4FBC77",
+     "warn": "#E0A63F",
+     "bad": "#F0706A",
+     "highlight": "rgba(122,166,240,0.13)"
+    },
+    "sidebar": {
+     "bg": "#172036",
+     "bg2": "#172036",
+     "border": "#33405F",
+     "text": "#DDE4F2",
+     "textDim": "#8D98B4",
+     "accent": "#7AA6F0",
+     "accentSoft": "rgba(255,255,255,0.07)",
+     "accentSoftHover": "rgba(255,255,255,0.12)",
+     "hover": "rgba(255,255,255,0.045)",
+     "success": "#4FBC77",
+     "successOff": "#5A6480"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#253048",
+      "bgHover": "#2E3A55",
+      "fg": "#C4CDE2",
+      "border": "#3C4A6A"
+     },
+     "connect": {
+      "bg": "#45BE76",
+      "bgHover": "#5FCB8B",
+      "fg": "#0C1512",
+      "border": "#45BE76"
+     },
+     "disconnect": {
+      "bg": "#F0706A",
+      "bgHover": "#F48782",
+      "fg": "#180B0A",
+      "border": "#F0706A"
+     },
+     "primary": {
+      "bg": "#7AA6F0",
+      "bgHover": "#96B9F4",
+      "fg": "#0B1428",
+      "border": "#7AA6F0"
+     },
+     "danger": {
+      "bg": "#F0706A",
+      "bgHover": "#F48782",
+      "fg": "#180B0A",
+      "border": "#F0706A"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#0B1120",
+    "appBarBorder": "#1C2740",
+    "contentBg": "#0B1120",
+    "paper": "#111930",
+    "logBg": "#080D1A",
+    "data": {
+     "ok": "#56C47C",
+     "warn": "#E5AD4C",
+     "bad": "#F5827C",
+     "highlight": "rgba(139,178,247,0.13)"
+    },
+    "sidebar": {
+     "bg": "#070C18",
+     "bg2": "#070C18",
+     "border": "#1C2740",
+     "text": "#D3DBEE",
+     "textDim": "#7F8AA8",
+     "accent": "#8BB2F7",
+     "accentSoft": "rgba(255,255,255,0.06)",
+     "accentSoftHover": "rgba(255,255,255,0.11)",
+     "hover": "rgba(255,255,255,0.04)",
+     "success": "#56C47C",
+     "successOff": "#39415C"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#111930",
+      "bgHover": "#18213C",
+      "fg": "#BFC8DE",
+      "border": "#26314F"
+     },
+     "connect": {
+      "bg": "#4ECB80",
+      "bgHover": "#6BD696",
+      "fg": "#06110A",
+      "border": "#4ECB80"
+     },
+     "disconnect": {
+      "bg": "#F5827C",
+      "bgHover": "#F89791",
+      "fg": "#1A0908",
+      "border": "#F5827C"
+     },
+     "primary": {
+      "bg": "#8BB2F7",
+      "bgHover": "#A6C5F9",
+      "fg": "#08122A",
+      "border": "#8BB2F7"
+     },
+     "danger": {
+      "bg": "#F5827C",
+      "bgHover": "#F89791",
+      "fg": "#1A0908",
+      "border": "#F5827C"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "kraft",
+  "name": "Kraft",
+  "blurb": "Warm neutrals, deep teal",
+  "family": "hue",
+  "modes": {
+   "light": {
+    "appBar": "#FFFDFA",
+    "appBarBorder": "#E4DED2",
+    "contentBg": "#FAF7F1",
+    "paper": "#FFFDFA",
+    "logBg": "#F3EFE6",
+    "data": {
+     "ok": "#2F6B3A",
+     "warn": "#9A5A05",
+     "bad": "#A93A2A",
+     "highlight": "rgba(20,116,116,0.10)"
+    },
+    "sidebar": {
+     "bg": "#F1ECE1",
+     "bg2": "#F1ECE1",
+     "border": "#E4DED2",
+     "text": "#262119",
+     "textDim": "#6B6252",
+     "accent": "#147474",
+     "accentSoft": "rgba(20,116,116,0.11)",
+     "accentSoftHover": "rgba(20,116,116,0.18)",
+     "hover": "rgba(38,33,25,0.05)",
+     "success": "#2F6B3A",
+     "successOff": "#A79C89"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFDFA",
+      "bgHover": "#F1ECE1",
+      "fg": "#3A3427",
+      "border": "#CFC7B7"
+     },
+     "connect": {
+      "bg": "#2F6B3A",
+      "bgHover": "#255530",
+      "fg": "#FFFFFF",
+      "border": "#2F6B3A"
+     },
+     "disconnect": {
+      "bg": "#A93A2A",
+      "bgHover": "#872E22",
+      "fg": "#FFFFFF",
+      "border": "#A93A2A"
+     },
+     "primary": {
+      "bg": "#147474",
+      "bgHover": "#0F5C5C",
+      "fg": "#FFFFFF",
+      "border": "#147474"
+     },
+     "danger": {
+      "bg": "#A93A2A",
+      "bgHover": "#872E22",
+      "fg": "#FFFFFF",
+      "border": "#A93A2A"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#2E2A24",
+    "appBarBorder": "#454036",
+    "contentBg": "#2E2A24",
+    "paper": "#363129",
+    "logBg": "#26231D",
+    "data": {
+     "ok": "#6FC07E",
+     "warn": "#E3A63F",
+     "bad": "#EF7264",
+     "highlight": "rgba(78,190,186,0.12)"
+    },
+    "sidebar": {
+     "bg": "#252119",
+     "bg2": "#252119",
+     "border": "#454036",
+     "text": "#ECE5D8",
+     "textDim": "#9C9382",
+     "accent": "#4EBEBA",
+     "accentSoft": "rgba(255,255,255,0.07)",
+     "accentSoftHover": "rgba(255,255,255,0.12)",
+     "hover": "rgba(255,255,255,0.045)",
+     "success": "#6FC07E",
+     "successOff": "#625B4D"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#363129",
+      "bgHover": "#403A31",
+      "fg": "#D2CABA",
+      "border": "#4E4739"
+     },
+     "connect": {
+      "bg": "#5EC384",
+      "bgHover": "#77CF9A",
+      "fg": "#111509",
+      "border": "#5EC384"
+     },
+     "disconnect": {
+      "bg": "#EF7264",
+      "bgHover": "#F3887C",
+      "fg": "#180B0A",
+      "border": "#EF7264"
+     },
+     "primary": {
+      "bg": "#4EBEBA",
+      "bgHover": "#6ECBC8",
+      "fg": "#08191A",
+      "border": "#4EBEBA"
+     },
+     "danger": {
+      "bg": "#EF7264",
+      "bgHover": "#F3887C",
+      "fg": "#180B0A",
+      "border": "#EF7264"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#17140F",
+    "appBarBorder": "#2A261E",
+    "contentBg": "#17140F",
+    "paper": "#1E1A14",
+    "logBg": "#131009",
+    "data": {
+     "ok": "#74C883",
+     "warn": "#E8AE4E",
+     "bad": "#F58275",
+     "highlight": "rgba(88,205,200,0.12)"
+    },
+    "sidebar": {
+     "bg": "#110E09",
+     "bg2": "#110E09",
+     "border": "#2A261E",
+     "text": "#E2DACB",
+     "textDim": "#8C8474",
+     "accent": "#58CDC8",
+     "accentSoft": "rgba(255,255,255,0.06)",
+     "accentSoftHover": "rgba(255,255,255,0.11)",
+     "hover": "rgba(255,255,255,0.04)",
+     "success": "#74C883",
+     "successOff": "#453F33"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#1E1A14",
+      "bgHover": "#26211A",
+      "fg": "#CDC5B4",
+      "border": "#312B22"
+     },
+     "connect": {
+      "bg": "#66CE8C",
+      "bgHover": "#80D9A2",
+      "fg": "#08110B",
+      "border": "#66CE8C"
+     },
+     "disconnect": {
+      "bg": "#F58275",
+      "bgHover": "#F8968B",
+      "fg": "#1A0908",
+      "border": "#F58275"
+     },
+     "primary": {
+      "bg": "#58CDC8",
+      "bgHover": "#79D9D5",
+      "fg": "#05191A",
+      "border": "#58CDC8"
+     },
+     "danger": {
+      "bg": "#F58275",
+      "bgHover": "#F8968B",
+      "fg": "#1A0908",
+      "border": "#F58275"
+     }
+    }
+   }
+  }
+ },
+ {
+  "key": "vault",
+  "name": "Vault",
+  "blurb": "Maximum contrast, electric azure",
+  "family": "hue",
+  "modes": {
+   "light": {
+    "appBar": "#FFFFFF",
+    "appBarBorder": "#E3E3E3",
+    "contentBg": "#FFFFFF",
+    "paper": "#FFFFFF",
+    "logBg": "#F6F6F6",
+    "data": {
+     "ok": "#00713F",
+     "warn": "#8A5300",
+     "bad": "#C11414",
+     "highlight": "rgba(0,82,255,0.07)"
+    },
+    "sidebar": {
+     "bg": "#FAFAFA",
+     "bg2": "#FAFAFA",
+     "border": "#E3E3E3",
+     "text": "#000000",
+     "textDim": "#5A5A5A",
+     "accent": "#0052FF",
+     "accentSoft": "rgba(0,82,255,0.09)",
+     "accentSoftHover": "rgba(0,82,255,0.16)",
+     "hover": "rgba(0,0,0,0.04)",
+     "success": "#00713F",
+     "successOff": "#A6A6A6"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#FFFFFF",
+      "bgHover": "#F2F2F2",
+      "fg": "#1A1A1A",
+      "border": "#CFCFCF"
+     },
+     "connect": {
+      "bg": "#00713F",
+      "bgHover": "#005A32",
+      "fg": "#FFFFFF",
+      "border": "#00713F"
+     },
+     "disconnect": {
+      "bg": "#C11414",
+      "bgHover": "#9B1010",
+      "fg": "#FFFFFF",
+      "border": "#C11414"
+     },
+     "primary": {
+      "bg": "#0052FF",
+      "bgHover": "#0042CC",
+      "fg": "#FFFFFF",
+      "border": "#0052FF"
+     },
+     "danger": {
+      "bg": "#C11414",
+      "bgHover": "#9B1010",
+      "fg": "#FFFFFF",
+      "border": "#C11414"
+     }
+    }
+   },
+   "mid": {
+    "appBar": "#1A1A1A",
+    "appBarBorder": "#303030",
+    "contentBg": "#1A1A1A",
+    "paper": "#212121",
+    "logBg": "#141414",
+    "data": {
+     "ok": "#3FCB74",
+     "warn": "#E5A93C",
+     "bad": "#FF5C5C",
+     "highlight": "rgba(77,145,255,0.13)"
+    },
+    "sidebar": {
+     "bg": "#131313",
+     "bg2": "#131313",
+     "border": "#303030",
+     "text": "#FFFFFF",
+     "textDim": "#909090",
+     "accent": "#4D91FF",
+     "accentSoft": "rgba(255,255,255,0.08)",
+     "accentSoftHover": "rgba(255,255,255,0.13)",
+     "hover": "rgba(255,255,255,0.05)",
+     "success": "#3FCB74",
+     "successOff": "#5A5A5A"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#212121",
+      "bgHover": "#2B2B2B",
+      "fg": "#D6D6D6",
+      "border": "#3A3A3A"
+     },
+     "connect": {
+      "bg": "#3FCB74",
+      "bgHover": "#5DD68C",
+      "fg": "#0A140D",
+      "border": "#3FCB74"
+     },
+     "disconnect": {
+      "bg": "#FF5C5C",
+      "bgHover": "#FF7A7A",
+      "fg": "#1A0707",
+      "border": "#FF5C5C"
+     },
+     "primary": {
+      "bg": "#4D91FF",
+      "bgHover": "#71A8FF",
+      "fg": "#04101F",
+      "border": "#4D91FF"
+     },
+     "danger": {
+      "bg": "#FF5C5C",
+      "bgHover": "#FF7A7A",
+      "fg": "#1A0707",
+      "border": "#FF5C5C"
+     }
+    }
+   },
+   "dark": {
+    "appBar": "#000000",
+    "appBarBorder": "#1F1F1F",
+    "contentBg": "#000000",
+    "paper": "#0A0A0A",
+    "logBg": "#000000",
+    "data": {
+     "ok": "#45D67C",
+     "warn": "#EBB247",
+     "bad": "#FF6B6B",
+     "highlight": "rgba(102,163,255,0.14)"
+    },
+    "sidebar": {
+     "bg": "#000000",
+     "bg2": "#000000",
+     "border": "#1F1F1F",
+     "text": "#FFFFFF",
+     "textDim": "#8A8A8A",
+     "accent": "#66A3FF",
+     "accentSoft": "rgba(255,255,255,0.07)",
+     "accentSoftHover": "rgba(255,255,255,0.12)",
+     "hover": "rgba(255,255,255,0.05)",
+     "success": "#45D67C",
+     "successOff": "#3A3A3A"
+    },
+    "actions": {
+     "scan": {
+      "bg": "#0A0A0A",
+      "bgHover": "#161616",
+      "fg": "#D0D0D0",
+      "border": "#282828"
+     },
+     "connect": {
+      "bg": "#45D67C",
+      "bgHover": "#63E096",
+      "fg": "#03130A",
+      "border": "#45D67C"
+     },
+     "disconnect": {
+      "bg": "#FF6B6B",
+      "bgHover": "#FF8787",
+      "fg": "#1A0606",
+      "border": "#FF6B6B"
+     },
+     "primary": {
+      "bg": "#66A3FF",
+      "bgHover": "#8ABAFF",
+      "fg": "#02101F",
+      "border": "#66A3FF"
+     },
+     "danger": {
+      "bg": "#FF6B6B",
+      "bgHover": "#FF8787",
+      "fg": "#1A0606",
+      "border": "#FF6B6B"
+     }
+    }
+   }
+  }
+ }
+]
