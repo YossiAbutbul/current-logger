@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FSC3 Control Panel</title>
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/panel.css">
+</head>
+<body class="themed">
+
+<div class="app">
+
+  <header class="app-bar">
+    <div class="brand"><b>FSC3</b><span>control panel</span></div>
+    <div class="chips">
+      <div class="chip link"><span class="dot" id="cLink"></span><span id="cInstr">not connected</span></div>
+      <div class="chip">Center<b id="cCenter">—</b></div>
+      <div class="chip">Span<b id="cSpan">—</b></div>
+      <div class="chip">Ref<b id="cRef">—</b></div>
+      <div class="chip">Trace<b id="cMode">—</b></div>
+    </div>
+  </header>
+
+  <nav class="rail">
+    <div class="rail-group">Analyzer</div>
+    <button class="rail-item" data-view="connect" aria-current="true">
+      <span class="lbl">Connect</span><span class="n" id="nConn"></span></button>
+    <button class="rail-item" data-view="spectrum">
+      <span class="lbl">Spectrum</span><span class="n" id="nMark"></span></button>
+    <button class="rail-item" data-view="sweep">
+      <span class="lbl">Sweep &amp; bandwidth</span></button>
+
+    <div class="rail-foot">
+      <label for="palDir">Palette</label>
+      <select id="palDir" class="select"></select>
+      <div class="seg fill" id="palModes">
+        <button class="btn sm" data-mode="light" type="button">Light</button>
+        <button class="btn sm" data-mode="mid" type="button">Mid</button>
+        <button class="btn sm" data-mode="dark" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- ========================== CONNECT =========================== -->
+    <section class="view" id="viewConnect">
+      <div class="head">
+        <div>
+          <h1>Connect to the analyzer</h1>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="btnConnect">Connect</button>
+          <button class="btn" id="btnDisconnect" disabled>Disconnect</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Link</div>
+        <div class="fields cols-3">
+          <div class="field span-2"><label for="host">Analyzer address</label>
+            <input id="host" value="172.16.10.1" spellcheck="false"></div>
+          <div class="field"><label for="port">SCPI port</label>
+            <input id="port" value="5555"></div>
+        </div>
+
+        <div class="readout">
+          <div><span>Identity</span><b id="iIdn">—</b></div>
+          <div><span>Center frequency</span><b id="iCenter">—</b></div>
+          <div><span>Span</span><b id="iSpan">—</b></div>
+          <div><span>Reference level</span><b id="iRef">—</b></div>
+          <div><span>Reference offset</span><b id="iOffset">—</b></div>
+          <div><span>Display range</span><b id="iRange">—</b></div>
+          <div><span>Trace mode</span><b id="iMode">—</b></div>
+          <div><span>Detector</span><b id="iDet">—</b></div>
+          <div><span>RBW / VBW</span><b id="iBw">—</b></div>
+          <div><span>Attenuation</span><b id="iAtt">—</b></div>
+          <div><span>Sweep time</span><b id="iSwt">—</b></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">State captured at connect</div>
+        <div class="btn-row">
+          <button class="btn" id="btnRestore" disabled>Restore state from connect</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================== SPECTRUM ==========================
+         A workbench: the settings scroll on the left, the screen and its
+         marker table hold still on the right. -->
+    <section class="view" id="viewSpectrum" hidden>
+      <div class="head">
+        <div>
+          <h1>Spectrum</h1>
+          <p id="specSub">not connected</p>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="btnPeak">Peak search</button>
+          <button class="btn" id="btnSweep">Sweep once</button>
+          <button class="btn" id="btnLive">Go live</button>
+        </div>
+      </div>
+
+      <div class="notice" id="banner" hidden><span class="bang">—</span><span id="bannerText"></span></div>
+
+      <div class="workbench">
+
+        <!-- ─────────── settings, scrolling ─────────── -->
+        <div class="work-col work-left">
+
+          <div class="panel">
+            <div class="panel-title">Frequency
+              <span class="aside" id="freqAside">MHz</span></div>
+            <div class="fields cols-2">
+              <div class="field"><label for="f_center">Center (MHz)</label>
+                <input id="f_center" placeholder="—"></div>
+              <div class="field"><label for="f_span">Span (MHz)</label>
+                <input id="f_span" placeholder="—"></div>
+              <div class="field"><label for="f_start">Start (MHz)</label>
+                <input id="f_start" placeholder="—"></div>
+              <div class="field"><label for="f_stop">Stop (MHz)</label>
+                <input id="f_stop" placeholder="—"></div>
+            </div>
+            <div class="btn-grid">
+              <button class="btn sm" id="btnFull">Full span</button>
+              <button class="btn sm" id="btnZero">Zero span</button>
+              <button class="btn sm" id="btnHalf">Span ÷2</button>
+              <button class="btn sm" id="btnDouble">Span ×2</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Amplitude
+              <span class="aside" id="ampAside">dBm</span></div>
+            <div class="fields cols-2">
+              <div class="field"><label for="a_ref">Reference level (dBm)</label>
+                <input id="a_ref" placeholder="—"></div>
+              <div class="field"><label for="a_offset">Reference offset (dB)</label>
+                <input id="a_offset" placeholder="—"></div>
+              <div class="field"><label for="a_att">Attenuation (dB)</label>
+                <input id="a_att" placeholder="—"></div>
+              <div class="field"><label for="a_range">Display range</label>
+                <input id="a_range" value="—" readonly tabindex="-1"></div>
+            </div>
+            <div class="btn-group">
+              <button class="btn sm" id="btnAttAuto">Attenuation auto</button>
+              <button class="btn sm" id="btnRefDown">Ref −10 dB</button>
+              <button class="btn sm" id="btnRefUp">Ref +10 dB</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Trace mode
+              <span class="aside" id="modeAside">clear write</span></div>
+            <div class="btn-group" id="modeSeg">
+              <button class="btn sm" data-mode="WRIT">Clear write</button>
+              <button class="btn sm" data-mode="MAXH">Max hold</button>
+              <button class="btn sm" data-mode="MINH">Min hold</button>
+              <button class="btn sm" data-mode="AVER">Average</button>
+              <button class="btn sm" data-mode="VIEW">View</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn sm" id="btnRestart">Restart trace</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Detector
+              <span class="aside" id="detAside">—</span></div>
+            <div class="btn-group" id="detSeg">
+              <button class="btn sm" data-det="APE">Auto peak</button>
+              <button class="btn sm" data-det="POS">Max peak</button>
+              <button class="btn sm" data-det="NEG">Min peak</button>
+              <button class="btn sm" data-det="SAMP">Sample</button>
+              <button class="btn sm" data-det="RMS">RMS</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Markers
+              <span class="aside" id="mkAside">off</span></div>
+            <div class="control-row">
+              <span class="control-label">Active</span>
+              <div class="seg" id="mkSeg">
+                <button class="btn sm" data-count="0">Off</button>
+                <button class="btn sm" data-count="1">1</button>
+                <button class="btn sm" data-count="2">2</button>
+                <button class="btn sm" data-count="3">3</button>
+                <button class="btn sm" data-count="4">4</button>
+                <button class="btn sm" data-count="5">5</button>
+                <button class="btn sm" data-count="6">6</button>
+              </div>
+            </div>
+            <div class="control-row">
+              <span class="control-label">Marker <b id="mkSelLabel">1</b></span>
+            </div>
+            <div class="btn-grid">
+              <button class="btn sm" data-act="peak">Peak</button>
+              <button class="btn sm" data-act="next">Next peak</button>
+              <button class="btn sm" data-act="min">Min</button>
+              <button class="btn sm" data-act="center">→ Center</button>
+            </div>
+            <div class="control-row">
+              <input id="mkX" class="inline-input" placeholder="set MHz">
+              <button class="btn sm" id="btnMkSet">Set</button>
+              <button class="btn sm" id="btnMkOff">All off</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="splitter v" id="splitV" role="separator" tabindex="0"
+             aria-orientation="vertical" aria-label="Resize settings column"
+             title="drag to resize · double-click to reset"></div>
+
+        <!-- ─────────── screen + markers, fixed ─────────── -->
+        <div class="work-col work-right">
+
+          <div class="panel screen-panel">
+            <div class="panel-title">Screen
+              <span class="title-tools">
+                <span class="aside" id="traceInfo"></span>
+                <select id="rateSel" class="select mini" aria-label="Refresh rate">
+                  <option value="0.3">0.3 s</option>
+                  <option value="0.5">0.5 s</option>
+                  <option value="1">1 s</option>
+                  <option value="2">2 s</option>
+                  <option value="5">5 s</option>
+                </select>
+              </span></div>
+            <canvas class="screen instr" id="screen" width="1600" height="1200"></canvas>
+          </div>
+
+          <div class="splitter h" id="splitH" role="separator" tabindex="0"
+               aria-orientation="horizontal" aria-label="Resize marker table"
+               title="drag to resize · double-click to reset"></div>
+
+          <div class="panel markers-panel">
+            <div class="panel-title">Markers
+              <button class="btn sm" id="btnTable">Hide table</button></div>
+            <div class="table-wrap short">
+              <table class="data" id="mkTbl">
+                <thead><tr><th>#</th><th id="mkXHead">Frequency MHz</th>
+                  <th>Level dBm</th><th>Δ from M1</th><th>Sel</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SWEEP & BANDWIDTH ====================== -->
+    <section class="view" id="viewSweep" hidden>
+      <div class="head">
+        <div>
+          <h1>Sweep &amp; bandwidth</h1>
+        </div>
+        <div class="actions">
+          <button class="btn" id="btnSweep2">Sweep once</button>
+        </div>
+      </div>
+
+      <div class="cols-2">
+        <div class="panel">
+          <div class="panel-title">Bandwidths
+            <span class="aside" id="bwAside">—</span></div>
+          <div class="fields cols-2">
+            <div class="field"><label for="s_rbw">Resolution BW (kHz)</label>
+              <input id="s_rbw" placeholder="—"></div>
+            <div class="field"><label for="s_vbw">Video BW (kHz)</label>
+              <input id="s_vbw" placeholder="—"></div>
+          </div>
+          <div class="btn-group">
+            <button class="btn sm" id="btnRbwAuto">RBW auto</button>
+            <button class="btn sm" id="btnVbwAuto">VBW auto</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Sweep
+            <span class="aside" id="swAside">—</span></div>
+          <div class="fields cols-2">
+            <div class="field"><label for="s_time">Sweep time (ms)</label>
+              <input id="s_time" placeholder="—"></div>
+            <div class="field"><label>Sweep control</label>
+              <div class="seg" id="contSeg">
+                <button class="btn" data-cont="1">Continuous</button>
+                <button class="btn" data-cont="0">Single</button>
+              </div></div>
+          </div>
+          <div class="btn-row">
+            <button class="btn sm" id="btnSwtAuto">Sweep time auto</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <span id="footLeft">FSC3 control panel</span>
+  </footer>
+</div>
+
+<script src="js/theme.js"></script>
+<script src="js/plot.js"></script>
+<script src="js/api.js"></script>
+<script src="js/panel.js"></script>
+</body>
+</html>

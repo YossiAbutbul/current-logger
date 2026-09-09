@@ -128,10 +128,13 @@ const Plot = (() => {
     g.fillRect(0, 0, W, H);
 
     if (!xs || !xs.length) {
-      g.fillStyle = dim; g.font = "12px " + M;
-      g.textAlign = "center"; g.textBaseline = "middle";
-      g.fillText(opts.empty || "no data", W / 2, H / 2);
-      g.textAlign = "left"; g.textBaseline = "alphabetic";
+      // opts.empty === "" means draw a bare screen, with no caption at all
+      if (opts.empty !== "") {
+        g.fillStyle = dim; g.font = "12px " + M;
+        g.textAlign = "center"; g.textBaseline = "middle";
+        g.fillText(opts.empty || "no data", W / 2, H / 2);
+        g.textAlign = "left"; g.textBaseline = "alphabetic";
+      }
       s.geom = null;
       return;
     }
@@ -150,6 +153,14 @@ const Plot = (() => {
     });
     const pad = Math.max((y1 - y0) * 0.14, Math.abs(y1) * 1e-6, 1e-9);
     y0 -= pad; y1 += pad;
+    /* An explicit y domain wins outright - a spectrum analyzer pins the top of
+       the screen to the reference level rather than scaling to the trace.
+       Opt-in: charts that pass no yrange autoscale exactly as before. */
+    if (opts.yrange && isFinite(opts.yrange[0]) && isFinite(opts.yrange[1])
+        && opts.yrange[0] !== opts.yrange[1]) {
+      y0 = Math.min(opts.yrange[0], opts.yrange[1]);
+      y1 = Math.max(opts.yrange[0], opts.yrange[1]);
+    }
     if (x1 === x0) x1 = x0 + 1;
     if (y1 === y0) { y0 -= 0.5; y1 += 0.5; }
 
@@ -211,6 +222,31 @@ const Plot = (() => {
       g.fillRect(PAD.l + 6, y - 13, tw + 10, 14);
       g.fillStyle = hc; g.textAlign = "left"; g.textBaseline = "bottom";
       g.fillText(h.label, PAD.l + 10, y - 1);
+      g.font = "11px " + M;
+    });
+
+    /* ---- marker lines (opt-in; charts that pass no vlines are unaffected) ---- */
+    (opts.vlines || []).forEach(m => {
+      if (!isFinite(m.v) || m.v < x0 || m.v > x1) return;
+      const x = Math.round(px(m.v)) + 0.5;
+      const mc = col(m.color, Theme.css("--warn", "#E2A63F"));
+      g.save();
+      g.setLineDash([4, 3]); g.strokeStyle = mc; g.globalAlpha = 0.9; g.lineWidth = 1;
+      g.beginPath(); g.moveTo(x, PAD.t); g.lineTo(x, H - PAD.b); g.stroke();
+      g.restore();
+      if (isFinite(m.y) && m.y >= y0 && m.y <= y1) {
+        g.fillStyle = mc;
+        g.beginPath(); g.arc(x, py(m.y), 3.2, 0, 7); g.fill();
+      }
+      if (!m.label) return;
+      g.font = "10px " + M;
+      const tw = g.measureText(m.label).width;
+      // flip the tag inside the plot when the line is near the right edge
+      const left = x + 4 + tw + 6 > W - PAD.r;
+      g.fillStyle = bg;
+      g.fillRect(left ? x - tw - 10 : x + 4, PAD.t + 1, tw + 6, 13);
+      g.fillStyle = mc; g.textAlign = "left"; g.textBaseline = "top";
+      g.fillText(m.label, left ? x - tw - 7 : x + 7, PAD.t + 3);
       g.font = "11px " + M;
     });
 
@@ -533,5 +569,7 @@ const Plot = (() => {
 
   function resetZoom(cv) { const s = st(cv); s.zoom = null; s.drag = null; render(cv); }
 
-  return { line, redrawAll, resetZoom };
+  /* PAD is exported so a caller that needs an exact plot-area aspect ratio can
+     work out the canvas box that produces it. */
+  return { line, redrawAll, resetZoom, PAD };
 })();

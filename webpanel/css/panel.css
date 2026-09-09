@@ -1,0 +1,179 @@
+/* Panel-only additions on top of the shared design system in css/app.css.
+
+   Nothing here re-styles a control: buttons, inputs and selects keep the
+   geometry app.css defines. These are only the arrangements the panel needs
+   that the test console did not - a workbench layout, action rows, and toggle
+   buttons outside a welded segmented group. */
+
+/* This app has no log strip, so the footer takes the row app.css gave it. */
+.app { grid-template-rows: var(--bar-h) minmax(0, 1fr) auto; }
+.foot { grid-column: 2; grid-row: 3; }
+
+/* ══════════════════════════ workbench ═════════════════════════════
+   The spectrum page is an instrument, not a document: the screen and its
+   marker table hold still on the right while the settings scroll on the
+   left. .main.fixed is set by panel.js only while that page is showing, so
+   every other page keeps the ordinary whole-page scroll. */
+/* Both separators are draggable, so the operator decides how the space is
+   split; panel.js writes --left-w and --table-h and remembers them. The screen
+   then simply fits whatever box it is given, at the instrument's 4:3. */
+.workbench {
+  display: grid;
+  grid-template-columns: var(--left-w, 400px) 14px minmax(360px, 1fr);
+  gap: 0 var(--s2);
+  align-items: start;
+  min-height: 0;
+}
+.work-col {
+  display: flex; flex-direction: column; gap: var(--s5); min-width: 0;
+}
+
+/* The pinned layout ends at the footer, so it does not want the generous
+   bottom padding a scrolling page needs - that space belongs to the screen. */
+.main.fixed {
+  overflow: hidden; display: flex; flex-direction: column;
+  padding-bottom: var(--s3);
+}
+.main.fixed .view { flex: 1 1 auto; min-height: 0; }
+.main.fixed .workbench { flex: 1 1 auto; min-height: 0; align-items: stretch; }
+.main.fixed .work-left { overflow-y: auto; min-height: 0; padding-right: var(--s2); }
+
+/* The screen never moves: the right column is a grid whose middle track is the
+   handle, so dragging it trades height between the screen and the table and
+   nothing scrolls out of view. */
+.main.fixed .work-right {
+  display: grid;
+  grid-template-rows: minmax(200px, 1fr) 14px var(--table-h, 224px);
+  gap: 0;
+  overflow: hidden;
+  min-height: 0;
+}
+.main.fixed .markers-panel .table-wrap {
+  flex: 1 1 auto; max-height: none; min-height: 0;
+}
+
+/* Belt and braces: even if a measurement is momentarily stale mid-drag, the
+   screen is clipped to its panel rather than spilling over the one below. */
+.screen-panel { overflow: hidden; }
+
+/* Hiding the table collapses its panel to the header bar rather than removing
+   it, so the button that hides it is also the button that brings it back. */
+.main.fixed .work-right.no-table { grid-template-rows: minmax(0, 1fr) 0 auto; }
+.work-right.no-table > .markers-panel { padding-bottom: 0; }
+.work-right.no-table > .markers-panel .table-wrap { display: none; }
+/* the handle keeps its place in the grid - display:none would remove it as a
+   grid item and shift the markers bar up into the collapsed track */
+.work-right.no-table > .splitter { visibility: hidden; pointer-events: none; }
+
+/* the toggle sits in the panel header, so it must not stretch the bar */
+.panel-title > .btn { margin: -5px 0; }
+
+/* ══════════════════════════ splitters ═════════════════════════════ */
+.splitter { position: relative; touch-action: none; align-self: stretch; }
+.splitter::after {
+  content: ""; position: absolute; background: var(--border);
+  border-radius: 999px; transition: background-color .13s ease;
+}
+.splitter.v { cursor: col-resize; }
+.splitter.v::after { top: 0; bottom: 0; left: 6px; width: 2px; }
+.splitter.h { cursor: row-resize; }
+.splitter.h::after { left: 0; right: 0; top: 6px; height: 2px; }
+.splitter:hover::after,
+.splitter:focus-visible::after,
+.splitter.dragging::after { background: var(--accent); }
+.splitter:focus-visible { outline: none; }
+
+/* ═════════════════════ the analyzer screen ════════════════════════
+   Full width of its panel; panel.js sets the height from what the splitters
+   leave, so the screen simply fills the box it is given. */
+canvas.screen.instr {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ══════════════════════════ arrangements ══════════════════════════ */
+/* two panels abreast, each still free to be any height */
+.cols-2 {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s5); align-items: start;
+}
+
+/* a row of secondary actions under a group of fields */
+.btn-row { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
+
+/* the same buttons, sharing a row and wrapping instead of being welded into a
+   segmented group - what a narrow column needs */
+.btn-group { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.btn-group > .btn { flex: 1 1 auto; }
+
+/* four related actions read better as a 2x2 block than as 3 + 1 orphan */
+.btn-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s2);
+}
+
+/* a pressed toggle looks the same whether or not it sits in a .seg */
+.btn[aria-pressed="true"] {
+  background: var(--accent-soft); border-color: var(--accent); color: var(--text);
+}
+
+/* caption + control + hint on one line */
+.control-row {
+  display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap;
+}
+.control-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.control-label b {
+  font-size: 12px; letter-spacing: 0; color: var(--text); font-weight: 600;
+  margin-left: 5px;
+}
+.note { font-size: 11px; color: var(--text-dim); }
+p.note { margin: calc(var(--s3) * -1) 0 0; line-height: 1.45; }
+
+/* a lone field sitting in a control row, matching the shared control geometry */
+.inline-input {
+  height: var(--ctl-sm); width: 128px; padding: 0 10px;
+  border: 1px solid var(--border); border-radius: var(--r-ctl);
+  background: var(--content-bg); color: var(--text);
+  font-family: var(--font-mono); font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  transition: border-color .13s ease, box-shadow .13s ease;
+}
+.inline-input:hover:not(:disabled) { border-color: var(--text-dim); }
+.inline-input:focus {
+  border-color: var(--accent); outline: none; box-shadow: var(--ring);
+}
+
+.table-wrap.short { max-height: 224px; }
+
+/* the marker whose actions the buttons apply to */
+table.data tbody tr.pick td { background: var(--highlight); }
+table.data tbody tr.pick td:first-child { box-shadow: inset 2px 0 0 var(--accent); }
+
+/* ══════════════════════════ responsive ════════════════════════════ */
+@media (max-width: 1180px) {
+  .cols-2 { grid-template-columns: minmax(0, 1fr); }
+  /* too narrow to hold two columns: fall back to one scrolling page */
+  .workbench { grid-template-columns: minmax(0, 1fr); gap: var(--s5); }
+  .splitter { display: none; }
+  .main.fixed { overflow-y: auto; display: block; }
+  .main.fixed .work-left { overflow: visible; padding-right: 0; }
+  .main.fixed .work-right {
+    display: flex; overflow: visible; grid-template-rows: none;
+  }
+  .main.fixed .markers-panel .table-wrap { max-height: 224px; }
+}
+@media (max-width: 720px) {
+  .app { grid-template-rows: var(--bar-h) auto minmax(0, 1fr) auto; }
+  .foot { grid-column: 1; grid-row: 4; }
+}
+
+/* readout and refresh rate riding in the screen panel's own header */
+.title-tools { display: flex; align-items: center; gap: var(--s3); min-width: 0; }
+.title-tools .aside { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+select.select.mini {
+  height: 24px; padding: 0 4px; font-size: 10.5px; width: auto; flex: none;
+}

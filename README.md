@@ -59,6 +59,54 @@ RBW/VBW, SCPI console, trace plot). It talks to the instrument through
 python fsc-bridge.py --open tcp://172.16.10.1:5555
 ```
 
+## FSC3 control panel
+
+`python run-panel.py` then <http://localhost:8772/> - a live control panel for
+the analyzer: frequency, reference level and offset, trace mode, detector, peak
+search and up to six markers, over the same LAN SCPI link.
+
+Unlike the tests, this one **does not put the analyzer back**. What you set is
+meant to stay set; the state as found at connect is captured and `Restore`
+writes it back on request.
+
+### Layout
+
+```
+run-panel.py          launcher
+panelapp/
+  config.py           host/port, detectors, trace modes, poll rates
+  analyzer.py         the verified SCPI operations, and only those
+  session.py          shared link + the live sweeper thread
+  server.py           HTTP + WebSocket, stdlib only
+webpanel/             index.html, css/panel.css, js/api.js, js/panel.js
+```
+
+The panel serves its own files first and falls back to `webdc/`, so the design
+system - `theme.css`, `app.css`, `theme.js`, `plot.js`, `palettes.json` - is
+shared with the current test rather than copied. The SCPI socket comes from
+`fscapp.scpi` for the same reason.
+
+Live mode leaves the analyzer **free-running** and only reads the trace. Arming
+a sweep per refresh would put the instrument into single-sweep and make its own
+display step along with the panel, and would break max hold and averaging.
+Every query still costs the analyzer sweep time, so the refresh rate is a dial
+(0.3-5 s, default 1 s) and marker reads are kept to one confirmation plus two
+queries per active marker.
+
+### FSC3 quirks (firmware V2.22), all measured
+
+| Detail | Value |
+|---|---|
+| Marker order | `CALC:MARK2:STAT ON` fails `-200` while M1 is off. Markers are a count 1..6, enabled from 1 up |
+| Reading an inactive marker | `CALC:MARK<n>:X?`/`:Y?` **switches that marker on**. Only `STAT?` is safe to ask |
+| Unset marker level | Answers `99.1e+36` - the 9.91e37 invalid sentinel - not an error |
+| Marker x unit | Hz in a frequency sweep, **seconds** in zero span |
+| Detectors | `APE` `POS` `NEG` `SAMP` `RMS` accepted. `MAXP` is `-141`; `AVER` and `QPE` are `-221`. `POS` is max peak |
+| Reference offset | `DISP:TRAC:Y:RLEV:OFFS` works, and the reference level follows it 1:1 - so write the offset first, the level second |
+| Display range | `DISP:TRAC:Y:SCAL` is accepted and ignored (reads back 100 dB), so it is exposed read-only |
+| Marker to reference | `CALC:MARK<n>:FUNC:REF` is accepted and does nothing. `FUNC:CENT` works |
+| Trace point count | Taken from the data: `SWE:POIN?` is not implemented and never answers, which desyncs the stream |
+
 ## Finding the instrument
 
 ```
