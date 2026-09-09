@@ -173,11 +173,11 @@ const Review = (() => {
 
   function play() {
     const b = $("vPlay");
-    if (timer) { clearInterval(timer); timer = null; b.textContent = "▶ Play"; return; }
-    b.textContent = "⏸ Pause";
+    if (timer) { clearInterval(timer); timer = null; b.textContent = "Play"; return; }
+    b.textContent = "Pause";
     timer = setInterval(() => {
       if (idx >= rows.length - 1) {
-        clearInterval(timer); timer = null; b.textContent = "▶ Play"; return;
+        clearInterval(timer); timer = null; b.textContent = "Play"; return;
       }
       show(idx + 1);
     }, 600);
